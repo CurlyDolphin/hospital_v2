@@ -37,6 +37,8 @@ RUN chown www-data:www-data /var/www
 COPY --chown=www-data:www-data ./ /var/www
 WORKDIR /var/www
 
+RUN chown -R www-data:www-data /var/www/vendor/
+
 EXPOSE 8080
 
 CMD ["/bin/sh", "./docker/php-fpm/run.sh"]

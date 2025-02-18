@@ -26,8 +26,11 @@ Open in browser [http://localhost:5050](http://localhost:5050)
    ```
    <твой-путь-на-хосте>/project__name/src -> /var/www/html
    ```
-
-## Взаимодействие с Compose
+## Войти в php контейнер
+```shell
+docker compose exec -u www-data php-fpm bash
+```
+## Взаимодействие с Composer
 docker-compose run --rm composer install
 
 ## Взаимодействие с bin\console
