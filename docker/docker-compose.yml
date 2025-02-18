@@ -1,0 +1,105 @@
+version: "3.8"
+
+services:
+  php-fpm:
+    container_name: php-fpm
+    build:
+      context: ./../
+      dockerfile: ./docker/php-fpm/Dockerfile
+      args:
+        - PUID=${PUID}
+        - PGID=${PGID}
+        - INSTALL_XDEBUG=${INSTALL_XDEBUG}
+    environment:
+      PHP_IDE_CONFIG: "serverName=Docker"
+    volumes:
+      - /var/www/vendor/
+      - ./../:/var/www/
+    ports:
+      - ${NGINX_HOST_HTTP_PORT}:8080
+
+  postgres:
+    container_name: postgres_container
+    image: postgres:13
+    command:
+      - "postgres"
+      - "-c"
+      - "max_connections=50"
+      - "-c"
+      - "shared_buffers=1GB"
+      - "-c"
+      - "effective_cache_size=4GB"
+      - "-c"
+      - "work_mem=124MB"
+      - "-c"
+      - "maintenance_work_mem=1024MB"
+      - "-c"
+      - "random_page_cost=1.1"
+      - "-c"
+      - "temp_file_limit=10GB"
+      - "-c"
+      - "log_min_duration_statement=200ms"
+      - "-c"
+      - "idle_in_transaction_session_timeout=10s"
+      - "-c"
+      - "lock_timeout=1s"
+      - "-c"
+      - "statement_timeout=60s"
+      - "-c"
+      - "shared_preload_libraries=pg_stat_statements"
+      - "-c"
+      - "pg_stat_statements.max=10000"
+      - "-c"
+      - "pg_stat_statements.track=all"
+    environment:
+      POSTGRES_DB: "hospital"
+      POSTGRES_USER: "doctor"
+      POSTGRES_PASSWORD: "angina"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+      - db_data:/var/lib/postgresql/data:rw
+    ports:
+      - "6432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U doctor -d hospital"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 4G
+    networks:
+      - postgres
+
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "vg_hospital_admin@yandex.ru"
+      PGADMIN_DEFAULT_PASSWORD: "vg_hospital_admin_ps"
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
+    networks:
+      - postgres
+
+
+volumes:
+  db_data:
+  pgadmin-data:
+
+networks:
+  postgres:
+    driver: bridge
