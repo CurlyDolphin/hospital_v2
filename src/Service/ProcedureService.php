@@ -18,7 +18,7 @@ class ProcedureService
     ) {
     }
 
-    public function getProcedures()
+    public function getProcedures(): string
     {
         $procedure = $this->procedureRepository->findAll();
 
