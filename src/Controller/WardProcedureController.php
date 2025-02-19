@@ -16,8 +16,56 @@ use OpenApi\Attributes as OA;
 
 class WardProcedureController extends AbstractController
 {
+    #[OA\Response(
+        response: 200,
+        description: 'Get ward procedures',
+        content: new OA\JsonContent(
+            type: 'array',
+            items: new OA\Items(
+                properties: [
+                    new OA\Property(
+                        property: 'procedure',
+                        properties: [
+                            new OA\Property(property: 'id', type: 'integer', example: 1),
+                            new OA\Property(property: 'name', type: 'string', example: 'Измерение АД'),
+                            new OA\Property(property: 'description', type: 'string', example: 'Измерение артериального давления'),
+                        ],
+                        type: 'object'
+                    ),
+                    new OA\Property(property: 'sequence', type: 'integer', example: 1),
+                ],
+                type: 'object'
+            ),
+            example: [
+                [
+                    'procedure' => [
+                        'id' => 1,
+                        'name' => 'Измерение АД',
+                        'description' => 'Измерение артериального давления'
+                    ],
+                    'sequence' => 1
+                ],
+                [
+                    'procedure' => [
+                        'id' => 3,
+                        'name' => 'Забор крови из пальца',
+                        'description' => 'Забор крови из пальца'
+                    ],
+                    'sequence' => 2
+                ],
+                [
+                    'procedure' => [
+                        'id' => 2,
+                        'name' => 'Забор крови из вены',
+                        'description' => 'Забор крови из вены'
+                    ],
+                    'sequence' => 3
+                ]
+            ]
+        )
+    )]
     #[Route('/wards/{wardId}/procedures', name: 'get_healing_plan', methods: ['GET'])]
-    public function getWardProcedure(
+    public function getWardProcedures(
         int                  $wardId,
         WardProcedureService $wardProcedureService
     ): JsonResponse

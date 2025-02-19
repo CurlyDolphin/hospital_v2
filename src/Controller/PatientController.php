@@ -53,17 +53,33 @@ class PatientController extends AbstractController
         response: 200,
         description: 'get patient by id',
         content: new OA\JsonContent(
-            type: 'array',
-            items: new OA\Items(
-                properties: [
-                    new OA\Property(property: 'id', type: 'integer', example: 2),
-                    new OA\Property(
-                        property: 'name',
-                        type: 'string',
-                        example: 'Кирилл'
-                    ),
-                ]
-            )
+            properties: [
+                new OA\Property(property: 'id', type: 'integer', example: 2),
+                new OA\Property(property: 'name', type: 'string', example: 'Кирилл'),
+                new OA\Property(property: 'lastName', type: 'string', example: 'Иванов'),
+                new OA\Property(property: 'gender', type: 'string', example: 'male'),
+                new OA\Property(property: 'isIdentified', type: 'boolean', example: true),
+                new OA\Property(property: 'birthday', type: 'string', format: 'date-time', example: '2000-01-01T00:00:00+00:00'),
+                new OA\Property(property: 'cardNumber', type: 'integer', example: 1),
+                new OA\Property(
+                    property: 'hospitalizations',
+                    type: 'array',
+                    items: new OA\Items(
+                        properties: [
+                            new OA\Property(
+                                property: 'ward',
+                                properties: [
+                                    new OA\Property(property: 'wardNumber', type: 'integer', example: 24),
+                                ],
+                                type: 'object'
+                            ),
+                            new OA\Property(property: 'dischargeDate', type: 'string', format: 'date-time', example: null),
+                        ],
+                        type: 'object'
+                    )
+                ),
+            ],
+            type: 'object'
         )
     )]
     public function getPatientInfo(
@@ -72,7 +88,7 @@ class PatientController extends AbstractController
     ): JsonResponse
     {
         $patientInfo = $patientService->getPatientInfo($patientId);
-
+    
         return new JsonResponse($patientInfo, Response::HTTP_OK, [], true);
     }
 
@@ -81,17 +97,14 @@ class PatientController extends AbstractController
         response: 201,
         description: 'create patient',
         content: new OA\JsonContent(
-            type: 'array',
-            items: new OA\Items(
-                properties: [
-                    new OA\Property(property: 'id', type: 'integer', example: 2),
-                    new OA\Property(
-                        property: 'name',
-                        type: 'string',
-                        example: 'Кирилл'
-                    ),
-                ]
-            )
+            properties: [
+                new OA\Property(property: 'id', type: 'integer', example: 2),
+                new OA\Property(
+                    property: 'name',
+                    type: 'string',
+                    example: 'Кирилл'
+                ),
+            ]
         )
     )]
     public function createPatient(
@@ -112,13 +125,10 @@ class PatientController extends AbstractController
         response: 200,
         description: 'Identify patient by id',
         content: new OA\JsonContent(
-            type: 'array',
-            items: new OA\Items(
-                properties: [
-                    new OA\Property(property: 'message', type: 'string', example: 'Patient identified successfully'),
-                    new OA\Property(property: 'patientName', type: 'string', example: 'Андрей'),
-                ]
-            )
+            properties: [
+                new OA\Property(property: 'message', type: 'string', example: 'Patient identified successfully'),
+                new OA\Property(property: 'patientName', type: 'string', example: 'Андрей'),
+            ]
         )
     )]
     public function identifyPatient(

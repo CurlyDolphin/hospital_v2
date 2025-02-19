@@ -12,7 +12,6 @@ class CreateWardDto
         public int $wardNumber,
 
         #[Assert\NotBlank]
-        #[Assert\Length(min: 5)]
         public string $description,
     )
     {

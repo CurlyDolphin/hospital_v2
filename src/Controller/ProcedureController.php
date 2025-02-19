@@ -67,6 +67,20 @@ class ProcedureController extends AbstractController
         );
     }
 
+    #[OA\Response(
+        response: 200,
+        description: 'Get procedure info',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(property: 'id', type: 'integer', example: 2),
+                new OA\Property(property: 'name', type: 'string', example: 'Забор крови из вены'),
+                new OA\Property(property: 'description', type: 'string', example: 'Забор крови из вены'),
+                new OA\Property(property: 'wards', type: 'array', items: new OA\Items(type: 'string', example: '24')),
+                new OA\Property(property: 'patients', type: 'array', items: new OA\Items(type: 'string', example: 'Кирилл Иванов')),
+            ],
+            type: 'object'
+        )
+    )]
     #[Route('/procedures/{procedureId}', name: 'get_procedure_info', methods: ['GET'])]
     public function getProcedureInfo(
         int              $procedureId,

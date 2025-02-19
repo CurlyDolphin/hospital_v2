@@ -11,9 +11,6 @@ docker-compose up -d
 docker-compose down
 ```
 
-## Access to PgAdmin
-Open in browser [http://localhost:5050](http://localhost:5050)
-
 ## Включить\Отключить Xdebug
 docker/.env
 INSTALL_XDEBUG=true
@@ -43,3 +40,8 @@ docker-compose run --rm composer install
 ```shell
 docker compose run --rm console cache:clear
 ```
+
+## Access to PgAdmin
+Open in browser [http://localhost:5050](http://localhost:5050)
+
+Пароль и логин по умолчанию вводтся автоматически ничего вводить не нужно.
