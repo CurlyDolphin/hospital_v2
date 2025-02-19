@@ -132,6 +132,10 @@ class PatientService
             throw new EntityNotFoundException('Patient not found');
         }
 
+        foreach ($patient->getHospitalizations() as $hospitalization) {
+            $this->entityManager->remove($hospitalization);
+        }
+
         $this->entityManager->remove($patient);
         $this->entityManager->flush();
     }

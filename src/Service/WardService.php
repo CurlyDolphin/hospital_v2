@@ -92,7 +92,7 @@ class WardService
         }
 
         foreach ($ward->getWardProcedures() as $wardProcedure) {
-            $wardProcedure->setDeletedAt(new \DateTime('now'));
+            $this->entityManager->remove($wardProcedure);
         }
 
         $ward->setDeletedAt(new \DateTime('now'));

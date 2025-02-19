@@ -37,7 +37,27 @@ class WardProcedureService
         );
     }
 
-    public function updateWardProcedures(int $wardId, UpdateWardProcedureDto $dto): void
+    private function removeProceduresFromWard(int $wardId): void
+    {
+        $ward = $this->wardRepository->find($wardId);
+
+        if (!$ward) {
+            throw new EntityNotFoundException('Палата не найдена');
+        }
+
+        $wardProcedures = $this->entityManager
+            ->getRepository(WardProcedure::class)
+            ->findBy(['ward' => $ward]);
+
+        foreach ($wardProcedures as $wardProcedure) {
+            $this->entityManager->remove($wardProcedure);
+        }
+
+        $this->entityManager->flush();
+    }
+
+
+    public function updateWardProcedures(int $wardId, UpdateWardProcedureDto $dto): array
     {
         $errors = $this->validator->validate($dto);
         if (count($errors) > 0) {
@@ -53,10 +73,15 @@ class WardProcedureService
             throw new EntityNotFoundException('Палата не найдена');
         }
 
+        $this->removeProceduresFromWard($wardId);
+
+        $proceduresResponse = [];
+
         foreach ($dto->procedures as $procedureData) {
             $procedure = $this->entityManager
                 ->getRepository(Procedure::class)
                 ->find($procedureData['procedure_id']);
+
             if (!$procedure) {
                 throw new EntityNotFoundException(
                     sprintf('Процедура с id %d не найдена', $procedureData['procedure_id'])
@@ -69,8 +94,21 @@ class WardProcedureService
             $wardProcedure->setSequence((int)$procedureData['sequence']);
 
             $this->entityManager->persist($wardProcedure);
+
+            $proceduresResponse[] = [
+                'id'   => $procedure->getId(),
+                'name' => $procedure->getName(),
+            ];
         }
 
         $this->entityManager->flush();
+
+        return [
+            'ward' => [
+                'id'   => $ward->getId(),
+                'name' => $ward->getWardNumber(),
+            ],
+            'procedures' => $proceduresResponse,
+        ];
     }
 }

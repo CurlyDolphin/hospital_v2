@@ -96,6 +96,28 @@ class WardController extends AbstractController
     }
 
     #[Route('/wards/{id}', name: 'get_ward_info', methods: ['GET'])]
+    #[OA\Response(
+        response: 200,
+        description: 'Get ward with patient by id',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property('wardNumber', type: 'integer', example: 24),
+                new OA\Property(
+                    property: 'patients',
+                    type: 'array',
+                    items: new OA\Items(
+                        properties: [
+                            new OA\Property(property: 'id', type: 'integer', example: 2),
+                            new OA\Property(property: 'name', type: 'string', example: 'Кирилл'),
+                            new OA\Property(property: 'lastName', type: 'string', example: 'Иванов'),
+                        ],
+                        type: 'object'
+                    )
+                )
+            ],
+            type: 'object'
+        )
+    )]
     public function getWardInfo(
         int         $id,
         WardService $wardService

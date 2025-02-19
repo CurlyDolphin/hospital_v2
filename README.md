@@ -44,4 +44,12 @@ docker compose run --rm console cache:clear
 ## Access to PgAdmin
 Open in browser [http://localhost:5050](http://localhost:5050)
 
-Пароль и логин по умолчанию вводтся автоматически ничего вводить не нужно.
+Пароль и логин вводятся автоматически, ничего вводить не нужно.
+
+## История развития проекта 
+
+https://github.com/CurlyDolphin/miv_v2
+
+После того как прееделал docker 
+
+https://github.com/CurlyDolphin/hospital_v2

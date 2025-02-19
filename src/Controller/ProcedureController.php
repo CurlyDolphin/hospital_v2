@@ -92,6 +92,16 @@ class ProcedureController extends AbstractController
     }
 
     #[Route('/procedures/{id}', name: 'update_procedure', requirements: ['id' => '\d+'], methods: ['PUT'])]
+    #[OA\Response(
+        response: 200,
+        description: 'Procedure updated successfully',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(property: 'message', type: 'string', example: 'Procedure updated successfully'),
+                new OA\Property(property: 'procedureName', type: 'string', example: 'Забор крови из пальца'),
+            ]
+        )
+    )]
     public function updateProcedure(
         int $id,
         #[MapRequestPayload] CreateProcedureDto $dto,

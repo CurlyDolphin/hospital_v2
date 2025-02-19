@@ -21,13 +21,10 @@ class HospitalizationController extends AbstractController
         response: 200,
         description: 'assign patient to ward',
         content: new OA\JsonContent(
-            type: 'array',
-            items: new OA\Items(
-                properties: [
-                    new OA\Property(property: 'message', type: 'string', example: 'Patient assigned to ward successfully'),
-                    new OA\Property(property: 'patientName', type: 'string', example: 'Кирилл Иванов'),
-                ]
-            )
+            properties: [
+                new OA\Property(property: 'message', type: 'string', example: 'Patient assigned to ward successfully'),
+                new OA\Property(property: 'patientName', type: 'string', example: 'Кирилл Иванов'),
+            ]
         )
     )]
     public function assignPatientToWard(
@@ -45,17 +42,14 @@ class HospitalizationController extends AbstractController
         response: 200,
         description: 'update patient',
         content: new OA\JsonContent(
-            type: 'array',
-            items: new OA\Items(
-                properties: [
-                    new OA\Property(property: 'id', type: 'integer', example: 8),
-                    new OA\Property(
-                        property: 'name',
-                        type: 'string',
-                        example: 'Лариса'
-                    ),
-                ]
-            )
+            properties: [
+                new OA\Property(property: 'id', type: 'integer', example: 8),
+                new OA\Property(
+                    property: 'name',
+                    type: 'string',
+                    example: 'Лариса'
+                ),
+            ]
         )
     )]
     public function updatePatient(
