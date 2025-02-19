@@ -79,7 +79,28 @@ class WardProcedureController extends AbstractController
         response: 200,
         description: 'Ward procedures updated successfully',
         content: new OA\JsonContent(
-            example: ['message' => 'Ward procedures updated successfully']
+            properties: [
+                new OA\Property(
+                    property: 'ward',
+                    properties: [
+                        new OA\Property(property: 'id', type: 'integer', example: 1),
+                        new OA\Property(property: 'name', type: 'integer', example: 24),
+                    ],
+                    type: 'object'
+                ),
+                new OA\Property(
+                    property: 'procedures',
+                    type: 'array',
+                    items: new OA\Items(
+                        properties: [
+                            new OA\Property(property: 'id', type: 'integer', example: 1),
+                            new OA\Property(property: 'name', type: 'string', example: 'Измерение АД'),
+                        ],
+                        type: 'object'
+                    )
+                ),
+            ],
+            type: 'object'
         )
     )]
     #[Route('/wards/{wardId}/procedures', name: 'create_healing_plan', methods: ['POST'])]
@@ -92,8 +113,8 @@ class WardProcedureController extends AbstractController
         $wardProcedures = $wardProcedureService->updateWardProcedures($wardId, $dto);
 
         return new JsonResponse(
-            ['message' => 'Ward procedures updated successfully'],
-            Response::HTTP_OK
+            $wardProcedures,
+            Response::HTTP_OK,
         );
     }
 }
