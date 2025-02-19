@@ -46,6 +46,9 @@ Open in browser [http://localhost:5050](http://localhost:5050)
 
 Пароль и логин вводятся автоматически, ничего вводить не нужно.
 
+## Доступ к Swagger
+Open in browser [http://localhost:888/api/doc](http://localhost:888/api/doc)
+
 ## История развития проекта 
 
 https://github.com/CurlyDolphin/miv_v2
