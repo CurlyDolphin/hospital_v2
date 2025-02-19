@@ -56,3 +56,24 @@ https://github.com/CurlyDolphin/miv_v2
 После того как прееделал docker 
 
 https://github.com/CurlyDolphin/hospital_v2
+
+## Как должен выглядеть docker/.env по умолчанию
+COMPOSE_PROJECT_NAME=hospital
+
+#users ids could retrieved by the command `id $USER`
+PUID=1000
+PGID=1000
+
+#nginx
+NGINX_HOST_HTTP_PORT=888
+INSTALL_XDEBUG=false
+
+#postgres
+POSTGRES_PORT=5432
+POSTGRES_DB=hospital
+POSTGRES_USER=doctor
+POSTGRES_PASSWORD=angina
+
+## Подключение в .env
+
+DATABASE_URL="postgresql://doctor:angina@postgres:5432/hospital?serverVersion=13&charset=utf8"
