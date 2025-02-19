@@ -149,7 +149,11 @@ class PatientController extends AbstractController
     #[OA\Response(
         response: 200,
         description: 'delete patient',
-        content: new OA\JsonContent()
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(property: 'message', type: 'string', example: 'Patient deleted successfully'),
+            ]
+        )
     )]
     public function deletePatient(
         int            $id,

@@ -129,6 +129,15 @@ class WardController extends AbstractController
     }
 
     #[Route('/wards/{wardId}', name: 'delete_ward', methods: ['DELETE'])]
+    #[OA\Response(
+        response: 200,
+        description: 'Delete ward',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(property: 'message', type: 'string', example: 'Палата успешно удалена. Пациенты отцеплены.'),
+            ]
+        )
+    )]
     public function deleteWard(
         int         $wardId,
         WardService $wardService

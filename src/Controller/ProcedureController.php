@@ -116,6 +116,15 @@ class ProcedureController extends AbstractController
     }
 
     #[Route('/procedures/{id}', name: 'delete_procedure', requirements: ['id' => '\d+'], methods: ['DELETE'])]
+    #[OA\Response(
+        response: 200,
+        description: 'Procedure deleted successfully',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(property: 'message', type: 'string', example: 'Procedure deleted successfully'),
+            ]
+        )
+    )]
     public function deleteProcedure(
         int              $id,
         ProcedureService $procedureService

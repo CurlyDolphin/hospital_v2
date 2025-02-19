@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Dto\Procedure\CreateProcedureDto;
 use App\Entity\Procedure;
+use App\Entity\WardProcedure;
 use App\Repository\ProcedureRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
@@ -79,6 +80,11 @@ class ProcedureService
 
         if (!$procedure) {
             throw new EntityNotFoundException('Procedure not found');
+        }
+        
+        $wardProcedures = $this->entityManager->getRepository(WardProcedure::class)->findBy(['procedure' => $procedure]);
+        foreach ($wardProcedures as $wardProcedure) {
+            $this->entityManager->remove($wardProcedure);
         }
 
         $this->entityManager->remove($procedure);
