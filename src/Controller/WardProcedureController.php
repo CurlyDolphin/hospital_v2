@@ -70,9 +70,9 @@ class WardProcedureController extends AbstractController
         WardProcedureService $wardProcedureService
     ): JsonResponse
     {
-        $jsonData = $wardProcedureService->getWardProcedures($wardId);
+        $wardProcedures = $wardProcedureService->getWardProcedures($wardId);
 
-        return new JsonResponse($jsonData, Response::HTTP_OK, [], true);
+        return new JsonResponse($wardProcedures, Response::HTTP_OK, [], true);
     }
 
     #[OA\Response(
