@@ -35,7 +35,11 @@ INSTALL_XDEBUG=true
 docker compose exec -u www-data php-fpm bash
 ```
 ## Взаимодействие с Composer
+```shell
 docker-compose run --rm composer install
+```
 
 ## Взаимодействие с bin\console
+```shell
 docker compose run --rm console cache:clear
+```

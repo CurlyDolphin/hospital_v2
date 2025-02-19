@@ -2,8 +2,8 @@
 
 namespace App\Dto\Patient;
 
+use App\Validator\IdentifiedBirthday\IdentifiedBirthday;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Validator\IdentifiedBirthday;
 
 #[IdentifiedBirthday]
 class IdentifyPatientDto
@@ -31,7 +31,7 @@ class IdentifyPatientDto
             value: new \DateTimeImmutable('today'),
             message: "Дата рождения не может быть позже текущей даты"
         )]
-        public ?\DateTimeInterface $birthday = null,
+        public \DateTimeInterface $birthday,
     )
     {
     }

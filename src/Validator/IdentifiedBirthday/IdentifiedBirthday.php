@@ -1,6 +1,5 @@
 <?php
-
-namespace App\Validator;
+namespace App\Validator\IdentifiedBirthday;
 
 use Attribute;
 use Symfony\Component\Validator\Constraint;
@@ -13,5 +12,10 @@ class IdentifiedBirthday extends Constraint
     public function getTargets(): string
     {
         return self::CLASS_CONSTRAINT;
+    }
+
+    public function validatedBy(): string
+    {
+        return Validator::class;
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Dto\Patient;
 
-use App\Validator\IdentifiedBirthday;
+use App\Validator\IdentifiedBirthday\IdentifiedBirthday;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
