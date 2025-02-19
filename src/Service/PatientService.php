@@ -15,17 +15,18 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class PatientService
 {
     public function __construct(
-        private readonly PatientRepository      $patientRepository,
+        private readonly PatientRepository $patientRepository,
         private readonly EntityManagerInterface $entityManager,
-        private readonly ValidatorInterface     $validator,
-        private readonly SerializerInterface    $serializer
-    ) {}
+        private readonly ValidatorInterface $validator,
+        private readonly SerializerInterface $serializer,
+    ) {
+    }
 
     public function getPatients(): string
     {
         $patients = $this->patientRepository->findAll();
 
-        return $this->serializer->serialize($patients, 'json', ["groups" => "patient:read"]);
+        return $this->serializer->serialize($patients, 'json', ['groups' => 'patient:read']);
     }
 
     public function getPatientInfo(int $patientId): string
@@ -76,10 +77,10 @@ class PatientService
         if ($dto->birthday) {
             $patient->setBirthday($dto->birthday);
         }
-    
+
         $this->entityManager->persist($patient);
         $this->entityManager->flush();
-    
+
         return $patient;
     }
 

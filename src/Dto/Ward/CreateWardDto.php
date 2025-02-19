@@ -13,8 +13,6 @@ class CreateWardDto
 
         #[Assert\NotBlank]
         public string $description,
-    )
-    {
-
+    ) {
     }
 }

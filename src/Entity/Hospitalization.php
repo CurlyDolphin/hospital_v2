@@ -11,7 +11,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: HospitalizationRepository::class)]
-#[Gedmo\SoftDeleteable(fieldName: "deletedAt", timeAware: false)]
+#[Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false)]
 class Hospitalization
 {
     use TimestampableEntity;
@@ -34,8 +34,8 @@ class Hospitalization
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     #[Assert\Expression(
-        "value === null or value >= this.getCreatedAt()",
-        message: "Дата выписки не может быть раньше даты поступления"
+        'value === null or value >= this.getCreatedAt()',
+        message: 'Дата выписки не может быть раньше даты поступления'
     )]
     #[Groups(['patient:read'])]
     private ?\DateTimeInterface $dischargeDate = null;
@@ -53,6 +53,7 @@ class Hospitalization
     public function setPatient(Patient $patient): static
     {
         $this->patient = $patient;
+
         return $this;
     }
 
@@ -64,6 +65,7 @@ class Hospitalization
     public function setWard(Ward $ward): static
     {
         $this->ward = $ward;
+
         return $this;
     }
 
@@ -75,6 +77,7 @@ class Hospitalization
     public function setDischargeDate(?\DateTimeInterface $dischargeDate): self
     {
         $this->dischargeDate = $dischargeDate;
+
         return $this;
     }
 }

@@ -2,10 +2,9 @@
 
 namespace App\Validator\PhoneNumber;
 
-use Attribute;
 use Symfony\Component\Validator\Constraint;
 
-#[Attribute]
+#[\Attribute]
 class PhoneNumber extends Constraint
 {
     public string $message = 'Некорректный номер телефона: "{{ value }}"';

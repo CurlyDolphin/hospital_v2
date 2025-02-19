@@ -29,7 +29,7 @@ class Procedure
     #[Groups(['ward_procedure:read', 'procedure:read'])]
     private string $description;
 
-    #[ORM\OneToMany(targetEntity: WardProcedure::class, mappedBy:'procedure')]
+    #[ORM\OneToMany(targetEntity: WardProcedure::class, mappedBy: 'procedure')]
     private Collection $wardProcedures;
 
     public function __construct()
@@ -77,6 +77,7 @@ class Procedure
             $this->wardProcedures[] = $wardProcedure;
             $wardProcedure->setProcedure($this);
         }
+
         return $this;
     }
 
@@ -87,6 +88,7 @@ class Procedure
                 $wardProcedure->setProcedure(null);
             }
         }
+
         return $this;
     }
 }

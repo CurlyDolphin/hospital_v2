@@ -1,10 +1,10 @@
 <?php
+
 namespace App\Validator\IdentifiedBirthday;
 
-use Attribute;
 use Symfony\Component\Validator\Constraint;
 
-#[Attribute]
+#[\Attribute]
 class IdentifiedBirthday extends Constraint
 {
     public string $message = 'Дата рождения может быть задана только для идентифицированных пользователей.';

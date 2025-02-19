@@ -50,12 +50,10 @@ class ProcedureRepository extends ServiceEntityRepository
 
             foreach ($ward->getHospitalizations() as $hospitalization) {
                 $patient = $hospitalization->getPatient();
-                $procedureDTO->addPatient($patient->getName() . ' ' . $patient->getLastName());
+                $procedureDTO->addPatient($patient->getName().' '.$patient->getLastName());
             }
         }
 
         return $procedureDTO;
     }
-
-
 }

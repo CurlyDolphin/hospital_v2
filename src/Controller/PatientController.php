@@ -7,12 +7,12 @@ namespace App\Controller;
 use App\Dto\Patient\CreatePatientDto;
 use App\Dto\Patient\IdentifyPatientDto;
 use App\Service\PatientService;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
-use OpenApi\Attributes as OA;
 
 class PatientController extends AbstractController
 {
@@ -42,9 +42,8 @@ class PatientController extends AbstractController
         )
     )]
     public function getAllPatients(
-        PatientService $patientService
-    ): JsonResponse
-    {
+        PatientService $patientService,
+    ): JsonResponse {
         return new JsonResponse($patientService->getPatients(), Response::HTTP_OK, [], true);
     }
 
@@ -83,12 +82,11 @@ class PatientController extends AbstractController
         )
     )]
     public function getPatientInfo(
-        int            $patientId,
-        PatientService $patientService
-    ): JsonResponse
-    {
+        int $patientId,
+        PatientService $patientService,
+    ): JsonResponse {
         $patientInfo = $patientService->getPatientInfo($patientId);
-    
+
         return new JsonResponse($patientInfo, Response::HTTP_OK, [], true);
     }
 
@@ -110,8 +108,7 @@ class PatientController extends AbstractController
     public function createPatient(
         #[MapRequestPayload] CreatePatientDto $dto,
         PatientService $patientService,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $patient = $patientService->createPatient($dto);
 
         return new JsonResponse(
@@ -133,10 +130,9 @@ class PatientController extends AbstractController
     )]
     public function identifyPatient(
         #[MapRequestPayload] IdentifyPatientDto $dto,
-        int                                     $id,
-        PatientService $patientService
-    ): JsonResponse
-    {
+        int $id,
+        PatientService $patientService,
+    ): JsonResponse {
         $patient = $patientService->identifyPatient($id, $dto);
 
         return new JsonResponse(
@@ -156,10 +152,9 @@ class PatientController extends AbstractController
         )
     )]
     public function deletePatient(
-        int            $id,
-        PatientService $patientService
-    ): JsonResponse
-    {
+        int $id,
+        PatientService $patientService,
+    ): JsonResponse {
         $patientService->deletePatient($id);
 
         return new JsonResponse(['message' => 'Patient deleted successfully'], Response::HTTP_OK);

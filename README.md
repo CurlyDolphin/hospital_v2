@@ -77,3 +77,8 @@ POSTGRES_PASSWORD=angina
 ## Подключение в .env
 
 DATABASE_URL="postgresql://doctor:angina@postgres:5432/hospital?serverVersion=13&charset=utf8"
+
+## Взаимодействие с php cs fixer
+```shell
+docker exec -it php-fpm php vendor/bin/php-cs-fixer fix
+```

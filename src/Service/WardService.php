@@ -12,10 +12,11 @@ use Symfony\Component\Serializer\SerializerInterface;
 class WardService
 {
     public function __construct(
-        private readonly EntityManagerInterface  $entityManager,
-        private readonly WardRepository          $wardRepository,
-        private readonly SerializerInterface     $serializer,
-    ) {}
+        private readonly EntityManagerInterface $entityManager,
+        private readonly WardRepository $wardRepository,
+        private readonly SerializerInterface $serializer,
+    ) {
+    }
 
     public function getWards()
     {
@@ -66,15 +67,15 @@ class WardService
         foreach ($ward->getHospitalizations() as $hospitalization) {
             $patient = $hospitalization->getPatient();
             $patients[] = [
-                'id'       => $patient->getId(),
-                'name'     => $patient->getName(),
+                'id' => $patient->getId(),
+                'name' => $patient->getName(),
                 'lastName' => $patient->getLastName(),
             ];
         }
 
         return [
             'wardNumber' => $ward->getWardNumber(),
-            'patients'   => $patients,
+            'patients' => $patients,
         ];
     }
 
@@ -85,7 +86,6 @@ class WardService
         if (!$ward) {
             throw new \Exception("Палата с идентификатором {$wardId} не найдена.");
         }
-
 
         foreach ($ward->getHospitalizations() as $hospitalization) {
             $hospitalization->setDeletedAt(new \DateTime('now'));

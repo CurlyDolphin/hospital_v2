@@ -81,7 +81,7 @@ class ProcedureService
         if (!$procedure) {
             throw new EntityNotFoundException('Procedure not found');
         }
-        
+
         $wardProcedures = $this->entityManager->getRepository(WardProcedure::class)->findBy(['procedure' => $procedure]);
         foreach ($wardProcedures as $wardProcedure) {
             $this->entityManager->remove($wardProcedure);

@@ -57,6 +57,7 @@ class WardProcedure
     public function setWard(Ward $ward): self
     {
         $this->ward = $ward;
+
         return $this;
     }
 
@@ -68,7 +69,7 @@ class WardProcedure
     public function setProcedure(Procedure $procedure): self
     {
         $this->procedure = $procedure;
+
         return $this;
     }
 }
-

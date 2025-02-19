@@ -6,12 +6,12 @@ namespace App\Controller;
 
 use App\Dto\Procedure\CreateProcedureDto;
 use App\Service\ProcedureService;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
-use OpenApi\Attributes as OA;
 
 class ProcedureController extends AbstractController
 {
@@ -31,13 +31,13 @@ class ProcedureController extends AbstractController
                 [
                     'id' => 1,
                     'name' => 'Электрокардиография',
-                    'description' => 'Диагностическая процедура, позволяет обнаружить многие болезни сердечно-сосудистой системы'
+                    'description' => 'Диагностическая процедура, позволяет обнаружить многие болезни сердечно-сосудистой системы',
                 ],
                 [
                     'id' => 2,
                     'name' => 'Измерение АД',
-                    'description' => 'Измерение артериального давления'
-                ]
+                    'description' => 'Измерение артериального давления',
+                ],
             ]
         )
     )]
@@ -57,7 +57,7 @@ class ProcedureController extends AbstractController
     #[Route('/procedures', name: 'create_procedure', methods: ['POST'])]
     public function createProcedure(
         #[MapRequestPayload] CreateProcedureDto $dto,
-        ProcedureService                        $procedureService,
+        ProcedureService $procedureService,
     ): JsonResponse {
         $procedure = $procedureService->createProcedure($dto);
 
@@ -83,8 +83,8 @@ class ProcedureController extends AbstractController
     )]
     #[Route('/procedures/{procedureId}', name: 'get_procedure_info', methods: ['GET'])]
     public function getProcedureInfo(
-        int              $procedureId,
-        ProcedureService $procedureService
+        int $procedureId,
+        ProcedureService $procedureService,
     ): JsonResponse {
         $procedureInfo = $procedureService->getProcedureInfo($procedureId);
 
@@ -105,7 +105,7 @@ class ProcedureController extends AbstractController
     public function updateProcedure(
         int $id,
         #[MapRequestPayload] CreateProcedureDto $dto,
-        ProcedureService                        $procedureService,
+        ProcedureService $procedureService,
     ): JsonResponse {
         $procedure = $procedureService->updateProcedure($id, $dto);
 
@@ -126,10 +126,9 @@ class ProcedureController extends AbstractController
         )
     )]
     public function deleteProcedure(
-        int              $id,
-        ProcedureService $procedureService
-    ): JsonResponse
-    {
+        int $id,
+        ProcedureService $procedureService,
+    ): JsonResponse {
         $procedureService->deleteProcedure($id);
 
         return new JsonResponse(['message' => 'Procedure deleted successfully'], Response::HTTP_OK);

@@ -15,11 +15,12 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class HospitalizationService
 {
     public function __construct(
-        private readonly PatientRepository      $patientRepository,
-        private readonly WardRepository         $wardRepository,
+        private readonly PatientRepository $patientRepository,
+        private readonly WardRepository $wardRepository,
         private readonly EntityManagerInterface $entityManager,
-        private readonly ValidatorInterface     $validator,
-    ) {}
+        private readonly ValidatorInterface $validator,
+    ) {
+    }
 
     public function assignPatientToWard(AssignPatientDto $dto): Patient
     {
@@ -55,7 +56,6 @@ class HospitalizationService
         int $id,
         UpdatePatientDto $dto,
     ): Patient {
-
         $patient = $this->patientRepository->find($id);
         if (!$patient) {
             throw new EntityNotFoundException('Patient not found');

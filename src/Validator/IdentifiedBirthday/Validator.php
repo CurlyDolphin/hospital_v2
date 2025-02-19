@@ -2,9 +2,9 @@
 
 namespace App\Validator\IdentifiedBirthday;
 
+use App\Dto\Patient\CreatePatientDto;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
-use App\Dto\Patient\CreatePatientDto;
 
 class Validator extends ConstraintValidator
 {
@@ -14,7 +14,7 @@ class Validator extends ConstraintValidator
             throw new \InvalidArgumentException('Неверный тип ограничения');
         }
 
-        if ($value instanceof CreatePatientDto && !$value->isIdentified && $value->birthday !== null) {
+        if ($value instanceof CreatePatientDto && !$value->isIdentified && null !== $value->birthday) {
             $this->context->buildViolation($constraint->message)
                 ->atPath('birthday')
                 ->addViolation();

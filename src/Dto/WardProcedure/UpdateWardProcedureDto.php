@@ -18,14 +18,13 @@ class UpdateWardProcedureDto
                     'sequence' => [
                         new Assert\NotBlank(message: 'Порядок процедуры обязателен'),
                         new Assert\Type(type: 'integer', message: 'Порядок процедуры должен быть числом'),
-                        new Assert\GreaterThanOrEqual( value: 1, message: 'Порядок процедуры должен быть больше или равен 1'),
+                        new Assert\GreaterThanOrEqual(value: 1, message: 'Порядок процедуры должен быть больше или равен 1'),
                     ],
                 ],
                 'allowExtraFields' => false,
-            ])
+            ]),
         ])]
         public array $procedures = [],
-    )
-    {
+    ) {
     }
 }

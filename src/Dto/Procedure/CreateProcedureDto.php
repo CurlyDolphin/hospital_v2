@@ -8,13 +8,12 @@ class CreateProcedureDto
 {
     public function __construct(
         #[Assert\NotBlank]
-        #[Assert\Type('string', message: "Имя должно быть строкой")]
+        #[Assert\Type('string', message: 'Имя должно быть строкой')]
         public string $name,
 
         #[Assert\NotBlank]
-        #[Assert\Type('string', message: "Описание должно быть строкой")]
+        #[Assert\Type('string', message: 'Описание должно быть строкой')]
         public string $description,
-    )
-    {
+    ) {
     }
 }

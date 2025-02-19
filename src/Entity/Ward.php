@@ -13,7 +13,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: WardRepository::class)]
-#[Gedmo\SoftDeleteable(fieldName: "deletedAt", timeAware: false)]
+#[Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false)]
 #[ORM\UniqueConstraint(columns: ['ward_number'])]
 class Ward
 {
@@ -25,7 +25,7 @@ class Ward
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: "integer", unique: true)]
+    #[ORM\Column(type: 'integer', unique: true)]
     #[Groups(['ward:read', 'patient:read'])]
     private int $wardNumber;
 
@@ -85,6 +85,7 @@ class Ward
             $this->hospitalizations[] = $hospitalization;
             $hospitalization->setWard($this);
         }
+
         return $this;
     }
 
@@ -95,6 +96,7 @@ class Ward
                 $hospitalization->setWard(null);
             }
         }
+
         return $this;
     }
 
@@ -109,6 +111,7 @@ class Ward
             $this->wardProcedures[] = $wardProcedure;
             $wardProcedure->setWard($this);
         }
+
         return $this;
     }
 
@@ -119,6 +122,7 @@ class Ward
                 $wardProcedure->setWard(null);
             }
         }
+
         return $this;
     }
 }

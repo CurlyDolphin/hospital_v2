@@ -6,12 +6,12 @@ namespace App\Controller;
 
 use App\Dto\Ward\CreateWardDto;
 use App\Service\WardService;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
-use OpenApi\Attributes as OA;
 
 class WardController extends AbstractController
 {
@@ -31,12 +31,12 @@ class WardController extends AbstractController
             example: [
                 [
                     'wardNumber' => 24,
-                    'description' => 'Палата сердечно сосудистых заболеваний'
+                    'description' => 'Палата сердечно сосудистых заболеваний',
                 ],
                 [
                     'wardNumber' => 32,
-                    'description' => 'Инфекционная палата'
-                ]
+                    'description' => 'Инфекционная палата',
+                ],
             ]
         )
     )]
@@ -58,9 +58,8 @@ class WardController extends AbstractController
     )]
     public function createWards(
         #[MapRequestPayload] CreateWardDto $dto,
-        WardService                        $wardService,
-    ): JsonResponse
-    {
+        WardService $wardService,
+    ): JsonResponse {
         $ward = $wardService->createWard($dto);
 
         return new JsonResponse(
@@ -85,8 +84,7 @@ class WardController extends AbstractController
         int $id,
         #[MapRequestPayload] CreateWardDto $dto,
         WardService $wardService,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $ward = $wardService->updateWard($id, $dto);
 
         return new JsonResponse(
@@ -113,16 +111,15 @@ class WardController extends AbstractController
                         ],
                         type: 'object'
                     )
-                )
+                ),
             ],
             type: 'object'
         )
     )]
     public function getWardInfo(
-        int         $id,
-        WardService $wardService
-    ): JsonResponse
-    {
+        int $id,
+        WardService $wardService,
+    ): JsonResponse {
         $wardInfo = $wardService->getWardInfo($id);
 
         return new JsonResponse($wardInfo, Response::HTTP_OK);
@@ -139,10 +136,9 @@ class WardController extends AbstractController
         )
     )]
     public function deleteWard(
-        int         $wardId,
-        WardService $wardService
-    ): JsonResponse
-    {
+        int $wardId,
+        WardService $wardService,
+    ): JsonResponse {
         $wardService->deleteWard($wardId);
 
         return new JsonResponse(['message' => 'Палата успешно удалена. Пациенты отцеплены.'], Response::HTTP_OK);

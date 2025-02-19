@@ -15,12 +15,13 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class WardProcedureService
 {
     public function __construct(
-        private readonly EntityManagerInterface  $entityManager,
-        private readonly WardRepository          $wardRepository,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly WardRepository $wardRepository,
         private readonly WardProcedureRepository $wardProcedureRepository,
-        private readonly SerializerInterface     $serializer,
-        private readonly ValidatorInterface      $validator,
-    ) {}
+        private readonly SerializerInterface $serializer,
+        private readonly ValidatorInterface $validator,
+    ) {
+    }
 
     public function getWardProcedures(int $wardId): string
     {
@@ -56,14 +57,13 @@ class WardProcedureService
         $this->entityManager->flush();
     }
 
-
     public function updateWardProcedures(int $wardId, UpdateWardProcedureDto $dto): array
     {
         $errors = $this->validator->validate($dto);
         if (count($errors) > 0) {
             $errorMessages = [];
             foreach ($errors as $violation) {
-                $errorMessages[] = $violation->getPropertyPath() . ': ' . $violation->getMessage();
+                $errorMessages[] = $violation->getPropertyPath().': '.$violation->getMessage();
             }
             throw new \InvalidArgumentException(implode('; ', $errorMessages));
         }
@@ -83,20 +83,18 @@ class WardProcedureService
                 ->find($procedureData['procedure_id']);
 
             if (!$procedure) {
-                throw new EntityNotFoundException(
-                    sprintf('Процедура с id %d не найдена', $procedureData['procedure_id'])
-                );
+                throw new EntityNotFoundException(sprintf('Процедура с id %d не найдена', $procedureData['procedure_id']));
             }
 
             $wardProcedure = new WardProcedure();
             $wardProcedure->setWard($ward);
             $wardProcedure->setProcedure($procedure);
-            $wardProcedure->setSequence((int)$procedureData['sequence']);
+            $wardProcedure->setSequence((int) $procedureData['sequence']);
 
             $this->entityManager->persist($wardProcedure);
 
             $proceduresResponse[] = [
-                'id'   => $procedure->getId(),
+                'id' => $procedure->getId(),
                 'name' => $procedure->getName(),
             ];
         }
@@ -105,7 +103,7 @@ class WardProcedureService
 
         return [
             'ward' => [
-                'id'   => $ward->getId(),
+                'id' => $ward->getId(),
                 'name' => $ward->getWardNumber(),
             ],
             'procedures' => $proceduresResponse,

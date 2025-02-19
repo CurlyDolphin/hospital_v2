@@ -29,9 +29,8 @@ class HospitalizationController extends AbstractController
     )]
     public function assignPatientToWard(
         #[MapRequestPayload] AssignPatientDto $dto,
-        HospitalizationService                $hospitalizationService
-    ): JsonResponse
-    {
+        HospitalizationService $hospitalizationService,
+    ): JsonResponse {
         $patient = $hospitalizationService->assignPatientToWard($dto);
 
         return new JsonResponse(['message' => 'Patient assigned to ward successfully', 'patientName' => $patient->getName()], Response::HTTP_OK);
@@ -55,9 +54,8 @@ class HospitalizationController extends AbstractController
     public function updatePatient(
         int $id,
         #[MapRequestPayload] UpdatePatientDto $dto,
-        HospitalizationService                $hospitalizationService
-    ): JsonResponse
-    {
+        HospitalizationService $hospitalizationService,
+    ): JsonResponse {
         $patient = $hospitalizationService->updatePatient($id, $dto);
 
         return new JsonResponse(

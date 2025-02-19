@@ -2,19 +2,19 @@
 
 namespace App\Entity;
 
+use App\Enum\GenderEnum;
+use App\Repository\PatientRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Enum\GenderEnum;
-use App\Repository\PatientRepository;
 
 #[ORM\Entity(repositoryClass: PatientRepository::class)]
-#[Gedmo\SoftDeleteable(fieldName: "deletedAt", timeAware: false)]
+#[Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false)]
 class Patient
 {
     use TimestampableEntity;
@@ -26,31 +26,31 @@ class Patient
     #[Groups(['patient:read'])]
     private int $id;
 
-    #[ORM\Column(type: "string", length: 80)]
+    #[ORM\Column(type: 'string', length: 80)]
     #[Assert\Length(min: 1, max: 80)]
     #[Groups(['patient:read'])]
     private string $name;
 
-    #[ORM\Column(type: "string", length: 80)]
+    #[ORM\Column(type: 'string', length: 80)]
     #[Assert\Length(min: 1, max: 80)]
     #[Groups(['patient:read'])]
     private string $lastName;
 
-    #[ORM\Column(type: "string", length: 6, enumType: GenderEnum::class)]
+    #[ORM\Column(type: 'string', length: 6, enumType: GenderEnum::class)]
     #[Groups(['patient:read'])]
     private GenderEnum $gender;
 
-    #[ORM\Column(type: "boolean")]
+    #[ORM\Column(type: 'boolean')]
     #[Groups(['patient:read'])]
     private bool $isIdentified = false;
 
-    #[ORM\Column(type: "date", nullable: true)]
+    #[ORM\Column(type: 'date', nullable: true)]
     #[Groups(['patient:read'])]
     private ?\DateTimeInterface $birthday = null;
 
-    #[ORM\Column(type: "integer", unique: true)]
-    #[ORM\GeneratedValue(strategy: "SEQUENCE")]
-    #[ORM\SequenceGenerator(sequenceName: "card_number_seq", allocationSize: 1)]
+    #[ORM\Column(type: 'integer', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+    #[ORM\SequenceGenerator(sequenceName: 'card_number_seq', allocationSize: 1)]
     #[Groups(['patient:read'])]
     private ?int $cardNumber = null;
 
@@ -124,6 +124,7 @@ class Patient
     public function setBirthday(?\DateTimeInterface $birthday): self
     {
         $this->birthday = $birthday;
+
         return $this;
     }
 
@@ -150,6 +151,7 @@ class Patient
             $this->hospitalizations[] = $hospitalization;
             $hospitalization->setPatient($this);
         }
+
         return $this;
     }
 }
