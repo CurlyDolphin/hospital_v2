@@ -88,7 +88,7 @@ docker exec -it php-fpm php vendor/bin/php-cs-fixer fix
 docker exec -it php-fpm php vendor/bin/phpstan analyse src tests
 ```
 
-## Настрйока cs fixer для РНРStorm
+## Настройкв cs fixer для РНРStorm
 https://youtu.be/9vJ0vAnAcSU?si=NmgKarJOQ5-FSrz-&t=310
 
 ## История развития проекта

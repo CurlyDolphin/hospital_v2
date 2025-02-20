@@ -23,10 +23,6 @@ class ProcedureService
     {
         $procedure = $this->procedureRepository->findAll();
 
-        if (!$procedure) {
-            throw new EntityNotFoundException('Процедура не найдена');
-        }
-
         return $this->serializer->serialize(
             $procedure,
             'json',

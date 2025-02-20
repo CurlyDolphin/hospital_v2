@@ -87,12 +87,15 @@
         }
     },
     "require-dev": {
-        "roave/security-advisories": "dev-latest"
-        ,
         "friendsofphp/php-cs-fixer": "^3.69",
         "phpstan/phpstan": "^2.1",
+        "phpunit/phpunit": "^11.0",
+        "roave/security-advisories": "dev-latest",
+        "symfony/browser-kit": "6.4.*",
+        "symfony/css-selector": "6.4.*",
         "symfony/debug-bundle": "6.4.*",
         "symfony/maker-bundle": "^1.62",
+        "symfony/phpunit-bridge": "^7.2",
         "symfony/stopwatch": "6.4.*",
         "symfony/web-profiler-bundle": "6.4.*"
     }
