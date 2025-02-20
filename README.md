@@ -85,7 +85,7 @@ docker exec -it php-fpm php vendor/bin/php-cs-fixer fix
 
 ## Взаимодействие с phpstan
 ```shell
-docker exec -it php-fpm php vendor/bin/phpstan analyse src tests
+docker exec -it php-fpm php vendor/bin/phpstan analyse src
 ```
 
 ## Настройкв cs fixer для РНРStorm

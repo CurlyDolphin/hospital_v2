@@ -18,7 +18,7 @@ class WardService
     ) {
     }
 
-    public function getWards()
+    public function getWards(): string
     {
         $wards = $this->wardRepository->findAll();
 
@@ -37,7 +37,7 @@ class WardService
         return $ward;
     }
 
-    public function updateWard(int $id, CreateWardDto $dto)
+    public function updateWard(int $id, CreateWardDto $dto): Ward
     {
         $ward = $this->wardRepository->find($id);
 
@@ -54,6 +54,9 @@ class WardService
         return $ward;
     }
 
+    /**
+     * @return array{wardNumber: int, patients: array<int, array{id: int, name: string, lastName: string}>}
+     */
     public function getWardInfo(int $wardId): array
     {
         $ward = $this->wardRepository->findWardWithPatients($wardId);

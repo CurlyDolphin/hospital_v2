@@ -54,6 +54,7 @@ class Patient
     #[Groups(['patient:read'])]
     private ?int $cardNumber = null;
 
+    /** @var Collection<int, Hospitalization> */
     #[ORM\OneToMany(targetEntity: Hospitalization::class, mappedBy: 'patient')]
     #[Groups(['patient:read'])]
     private Collection $hospitalizations;
@@ -140,6 +141,9 @@ class Patient
         return $this;
     }
 
+    /**
+     * @return Collection<int, Hospitalization>
+     */
     public function getHospitalizations(): Collection
     {
         return $this->hospitalizations;

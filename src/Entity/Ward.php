@@ -23,7 +23,7 @@ class Ward
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private ?int $id;
 
     #[ORM\Column(type: 'integer', unique: true)]
     #[Groups(['ward:read', 'patient:read'])]
@@ -33,9 +33,11 @@ class Ward
     #[Groups(['ward:read'])]
     private string $description;
 
+    /** @var Collection<int, Hospitalization> */
     #[ORM\OneToMany(targetEntity: Hospitalization::class, mappedBy: 'ward')]
     private Collection $hospitalizations;
 
+    /** @var Collection<int, WardProcedure> */
     #[ORM\OneToMany(targetEntity: WardProcedure::class, mappedBy: 'ward')]
     private Collection $wardProcedures;
 
@@ -74,6 +76,9 @@ class Ward
         return $this;
     }
 
+    /**
+     * @return Collection<int, Hospitalization>
+     */
     public function getHospitalizations(): Collection
     {
         return $this->hospitalizations;
@@ -89,17 +94,9 @@ class Ward
         return $this;
     }
 
-    public function removeHospitalization(Hospitalization $hospitalization): self
-    {
-        if ($this->hospitalizations->removeElement($hospitalization)) {
-            if ($hospitalization->getWard() === $this) {
-                $hospitalization->setWard(null);
-            }
-        }
-
-        return $this;
-    }
-
+    /**
+     * @return Collection<int, WardProcedure>
+     */
     public function getWardProcedures(): Collection
     {
         return $this->wardProcedures;
@@ -115,14 +112,4 @@ class Ward
         return $this;
     }
 
-    public function removeWardProcedure(WardProcedure $wardProcedure): self
-    {
-        if ($this->wardProcedures->removeElement($wardProcedure)) {
-            if ($wardProcedure->getWard() === $this) {
-                $wardProcedure->setWard(null);
-            }
-        }
-
-        return $this;
-    }
 }

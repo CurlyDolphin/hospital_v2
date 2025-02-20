@@ -29,6 +29,7 @@ class Procedure
     #[Groups(['ward_procedure:read', 'procedure:read'])]
     private string $description;
 
+    /** @var Collection<int, WardProcedure> */
     #[ORM\OneToMany(targetEntity: WardProcedure::class, mappedBy: 'procedure')]
     private Collection $wardProcedures;
 
@@ -66,6 +67,9 @@ class Procedure
         return $this;
     }
 
+    /**
+     * @return Collection<int, WardProcedure>
+     */
     public function getWardProcedures(): Collection
     {
         return $this->wardProcedures;
@@ -76,17 +80,6 @@ class Procedure
         if (!$this->wardProcedures->contains($wardProcedure)) {
             $this->wardProcedures[] = $wardProcedure;
             $wardProcedure->setProcedure($this);
-        }
-
-        return $this;
-    }
-
-    public function removeWardProcedure(WardProcedure $wardProcedure): self
-    {
-        if ($this->wardProcedures->removeElement($wardProcedure)) {
-            if ($wardProcedure->getProcedure() === $this) {
-                $wardProcedure->setProcedure(null);
-            }
         }
 
         return $this;

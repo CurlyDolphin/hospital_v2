@@ -16,6 +16,9 @@ class WardProcedureRepository extends ServiceEntityRepository
         parent::__construct($registry, WardProcedure::class);
     }
 
+    /**
+     * @return WardProcedure[]
+     */
     public function findByWardWithProcedureOrdered(int $wardId): array
     {
         return $this->createQueryBuilder('wp')

@@ -26,7 +26,11 @@ class HospitalizationService
     {
         $errors = $this->validator->validate($dto);
         if (count($errors) > 0) {
-            throw new \InvalidArgumentException((string) $errors);
+            $errorMessages = [];
+            foreach ($errors as $violation) {
+                $errorMessages[] = $violation->getPropertyPath().': '.$violation->getMessage();
+            }
+            throw new \InvalidArgumentException(implode('; ', $errorMessages));
         }
 
         $patient = $this->patientRepository->find($dto->patientId);
@@ -56,6 +60,15 @@ class HospitalizationService
         int $id,
         UpdatePatientDto $dto,
     ): Patient {
+        $errors = $this->validator->validate($dto);
+        if (count($errors) > 0) {
+            $errorMessages = [];
+            foreach ($errors as $violation) {
+                $errorMessages[] = $violation->getPropertyPath().': '.$violation->getMessage();
+            }
+            throw new \InvalidArgumentException(implode('; ', $errorMessages));
+        }
+
         $patient = $this->patientRepository->find($id);
         if (!$patient) {
             throw new EntityNotFoundException('Patient not found');
@@ -84,5 +97,21 @@ class HospitalizationService
         $this->entityManager->flush();
 
         return $patient;
+    }
+
+    public function deletePatient(int $id): void
+    {
+        $patient = $this->patientRepository->find($id);
+
+        if (!$patient) {
+            throw new EntityNotFoundException('Patient not found');
+        }
+
+        foreach ($patient->getHospitalizations() as $hospitalization) {
+            $this->entityManager->remove($hospitalization);
+        }
+
+        $this->entityManager->remove($patient);
+        $this->entityManager->flush();
     }
 }

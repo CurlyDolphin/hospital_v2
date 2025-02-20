@@ -7,7 +7,9 @@ class ProcedureInfoDto
     public int $id;
     public string $name;
     public string $description;
+    /** @var string[] */
     public array $wards = [];
+    /** @var string[] */
     public array $patients = [];
 
     public function __construct(int $id, string $name, string $description)
