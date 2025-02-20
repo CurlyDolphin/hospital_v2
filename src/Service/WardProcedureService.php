@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Dto\WardProcedure\UpdateWardProcedureDto;
 use App\Entity\Procedure;
+use App\Entity\Ward;
 use App\Entity\WardProcedure;
 use App\Repository\WardProcedureRepository;
 use App\Repository\WardRepository;
@@ -40,11 +41,7 @@ class WardProcedureService
 
     private function removeProceduresFromWard(int $wardId): void
     {
-        $ward = $this->wardRepository->find($wardId);
-
-        if (!$ward) {
-            throw new EntityNotFoundException('Палата не найдена');
-        }
+        $ward = $this->findWardOrFail($wardId);
 
         $wardProcedures = $this->entityManager
             ->getRepository(WardProcedure::class)
@@ -68,10 +65,7 @@ class WardProcedureService
             throw new \InvalidArgumentException(implode('; ', $errorMessages));
         }
 
-        $ward = $this->wardRepository->find($wardId);
-        if (!$ward) {
-            throw new EntityNotFoundException('Палата не найдена');
-        }
+        $ward = $this->findWardOrFail($wardId);
 
         $this->removeProceduresFromWard($wardId);
 
@@ -108,5 +102,15 @@ class WardProcedureService
             ],
             'procedures' => $proceduresResponse,
         ];
+    }
+
+    private function findWardOrFail(int $id): Ward
+    {
+        $ward = $this->wardRepository->find($id);
+        if (!$ward) {
+            throw new EntityNotFoundException('Палата не найдена');
+        }
+
+        return $ward;
     }
 }

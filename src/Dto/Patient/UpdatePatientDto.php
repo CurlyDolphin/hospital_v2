@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Dto\Hospitalization;
+namespace App\Dto\Patient;
 
 use Symfony\Component\Validator\Constraints as Assert;
 

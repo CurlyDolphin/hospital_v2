@@ -55,11 +55,7 @@ class ProcedureService
 
     public function updateProcedure(int $id, CreateProcedureDto $dto): Procedure
     {
-        $procedure = $this->entityManager->getRepository(Procedure::class)->find($id);
-
-        if (!$procedure) {
-            throw new EntityNotFoundException('Procedure not found');
-        }
+        $procedure = $this->findProcedureOrFail($id);
 
         $procedure->setName($dto->name);
         $procedure->setDescription($dto->description);
@@ -72,11 +68,7 @@ class ProcedureService
 
     public function deleteProcedure(int $id): void
     {
-        $procedure = $this->entityManager->getRepository(Procedure::class)->find($id);
-
-        if (!$procedure) {
-            throw new EntityNotFoundException('Procedure not found');
-        }
+        $procedure = $this->findProcedureOrFail($id);
 
         $wardProcedures = $this->entityManager->getRepository(WardProcedure::class)->findBy(['procedure' => $procedure]);
         foreach ($wardProcedures as $wardProcedure) {
@@ -85,5 +77,15 @@ class ProcedureService
 
         $this->entityManager->remove($procedure);
         $this->entityManager->flush();
+    }
+
+    private function findProcedureOrFail(int $id): Procedure
+    {
+        $procedure = $this->entityManager->getRepository(Procedure::class)->find($id);
+        if (!$procedure) {
+            throw new EntityNotFoundException('Procedure not found');
+        }
+
+        return $procedure;
     }
 }

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Dto\Hospitalization\AssignPatientDto;
-use App\Dto\Hospitalization\UpdatePatientDto;
 use App\Service\HospitalizationService;
 use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -34,33 +33,5 @@ class HospitalizationController extends AbstractController
         $patient = $hospitalizationService->assignPatientToWard($dto);
 
         return new JsonResponse(['message' => 'Patient assigned to ward successfully', 'patientName' => $patient->getName()], Response::HTTP_OK);
-    }
-
-    #[Route('/patients/{id}', name: 'update_patient', methods: ['PUT'])]
-    #[OA\Response(
-        response: 200,
-        description: 'update patient',
-        content: new OA\JsonContent(
-            properties: [
-                new OA\Property(property: 'id', type: 'integer', example: 8),
-                new OA\Property(
-                    property: 'name',
-                    type: 'string',
-                    example: 'Лариса'
-                ),
-            ]
-        )
-    )]
-    public function updatePatient(
-        int $id,
-        #[MapRequestPayload] UpdatePatientDto $dto,
-        HospitalizationService $hospitalizationService,
-    ): JsonResponse {
-        $patient = $hospitalizationService->updatePatient($id, $dto);
-
-        return new JsonResponse(
-            ['message' => 'Patient updated successfully', 'Patient Name' => $patient->getName()],
-            Response::HTTP_OK
-        );
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Dto\Patient\UpdatePatientDto;
 use App\Dto\Patient\CreatePatientDto;
 use App\Dto\Patient\IdentifyPatientDto;
 use App\Service\PatientService;
@@ -158,5 +159,33 @@ class PatientController extends AbstractController
         $patientService->deletePatient($id);
 
         return new JsonResponse(['message' => 'Patient deleted successfully'], Response::HTTP_OK);
+    }
+
+    #[Route('/patients/{id}', name: 'update_patient', methods: ['PUT'])]
+    #[OA\Response(
+        response: 200,
+        description: 'update patient',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(property: 'id', type: 'integer', example: 8),
+                new OA\Property(
+                    property: 'name',
+                    type: 'string',
+                    example: 'Лариса'
+                ),
+            ]
+        )
+    )]
+    public function updatePatient(
+        int $id,
+        #[MapRequestPayload] UpdatePatientDto $dto,
+        PatientService $patientService,
+    ): JsonResponse {
+        $patient = $patientService->updatePatient($id, $dto);
+
+        return new JsonResponse(
+            ['message' => 'Patient updated successfully', 'Patient Name' => $patient->getName()],
+            Response::HTTP_OK
+        );
     }
 }

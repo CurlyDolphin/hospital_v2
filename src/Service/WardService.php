@@ -39,11 +39,7 @@ class WardService
 
     public function updateWard(int $id, CreateWardDto $dto): Ward
     {
-        $ward = $this->wardRepository->find($id);
-
-        if (!$ward) {
-            throw new EntityNotFoundException('Ward not found');
-        }
+        $ward = $this->findWardOrFail($id);
 
         $ward->setWardNumber($dto->wardNumber);
         $ward->setDescription($dto->description);
@@ -59,11 +55,7 @@ class WardService
      */
     public function getWardInfo(int $wardId): array
     {
-        $ward = $this->wardRepository->findWardWithPatients($wardId);
-
-        if (!$ward) {
-            throw new EntityNotFoundException('Ward not found');
-        }
+        $ward = $this->findWardOrFail($wardId);
 
         $patients = [];
 
@@ -84,11 +76,7 @@ class WardService
 
     public function deleteWard(int $wardId): void
     {
-        $ward = $this->wardRepository->find($wardId);
-
-        if (!$ward) {
-            throw new \Exception("Палата с идентификатором {$wardId} не найдена.");
-        }
+        $ward = $this->findWardOrFail($wardId);
 
         foreach ($ward->getHospitalizations() as $hospitalization) {
             $hospitalization->setDeletedAt(new \DateTime('now'));
@@ -102,5 +90,15 @@ class WardService
 
         $this->entityManager->persist($ward);
         $this->entityManager->flush();
+    }
+
+    private function findWardOrFail(int $id): Ward
+    {
+        $ward = $this->wardRepository->find($id);
+        if (!$ward) {
+            throw new EntityNotFoundException('Ward not found');
+        }
+
+        return $ward;
     }
 }
