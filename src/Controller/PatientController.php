@@ -13,8 +13,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/patients')]
 class PatientController extends AbstractController
 {
     #[OA\Tag(name: 'Patients')]
@@ -42,7 +43,7 @@ class PatientController extends AbstractController
             )
         )
     )]
-    #[Route('/patients', name: 'get_patients', methods: ['GET'])]
+    #[Route('/', name: 'get_patients', methods: ['GET'])]
     public function getAllPatients(
         PatientService $patientService,
     ): JsonResponse {
@@ -83,7 +84,7 @@ class PatientController extends AbstractController
             type: 'object'
         )
     )]
-    #[Route('/patients/{patientId}', name: 'get_patient', methods: ['GET'])]
+    #[Route('/{patientId}', name: 'get_patient', methods: ['GET'])]
     public function getPatientInfo(
         int $patientId,
         PatientService $patientService,
@@ -108,7 +109,7 @@ class PatientController extends AbstractController
             ]
         )
     )]
-    #[Route('/patients', name: 'create_patient', methods: ['POST'])]
+    #[Route('/', name: 'create_patient', methods: ['POST'])]
     public function createPatient(
         #[MapRequestPayload] CreatePatientDto $dto,
         PatientService $patientService,
@@ -132,7 +133,7 @@ class PatientController extends AbstractController
             ]
         )
     )]
-    #[Route('/patients/identify/{$patientId}', name: 'identify_patient', methods: ['PUT'])]
+    #[Route('/identify/{$patientId}', name: 'identify_patient', methods: ['PUT'])]
     public function identifyPatient(
         #[MapRequestPayload] IdentifyPatientDto $dto,
         int $patientId,
@@ -156,7 +157,7 @@ class PatientController extends AbstractController
             ]
         )
     )]
-    #[Route('/patients/{id}', name: 'delete_patient', methods: ['DELETE'])]
+    #[Route('/{id}', name: 'delete_patient', methods: ['DELETE'])]
     public function deletePatient(
         int $patientId,
         PatientService $patientService,
@@ -181,7 +182,7 @@ class PatientController extends AbstractController
             ]
         )
     )]
-    #[Route('/patients/{id}', name: 'update_patient', methods: ['PUT'])]
+    #[Route('/{id}', name: 'update_patient', methods: ['PUT'])]
     public function updatePatient(
         int $patientId,
         #[MapRequestPayload] UpdatePatientDto $dto,

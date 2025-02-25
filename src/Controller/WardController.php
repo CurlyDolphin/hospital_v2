@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/wards')]
 class WardController extends AbstractController
 {
     #[OA\Tag(name: 'Wards')]
@@ -40,7 +41,7 @@ class WardController extends AbstractController
             ]
         )
     )]
-    #[Route('/wards', name: 'get_wards', methods: ['GET'])]
+    #[Route('/', name: 'get_wards', methods: ['GET'])]
     public function getWards(WardService $wardService): JsonResponse
     {
         return new JsonResponse($wardService->getWards(), Response::HTTP_OK, [], true);
@@ -57,7 +58,7 @@ class WardController extends AbstractController
             ]
         )
     )]
-    #[Route('/wards', name: 'create_wards', methods: ['POST'])]
+    #[Route('/', name: 'create_wards', methods: ['POST'])]
     public function createWards(
         #[MapRequestPayload] CreateWardDto $dto,
         WardService $wardService,
@@ -82,7 +83,7 @@ class WardController extends AbstractController
             type: 'object'
         )
     )]
-    #[Route('/wards/{id}', name: 'update_ward', requirements: ['id' => '\d+'], methods: ['PUT'])]
+    #[Route('/{id}', name: 'update_ward', requirements: ['id' => '\d+'], methods: ['PUT'])]
     public function updateWard(
         int $id,
         #[MapRequestPayload] CreateWardDto $dto,
@@ -119,7 +120,7 @@ class WardController extends AbstractController
             type: 'object'
         )
     )]
-    #[Route('/wards/{id}', name: 'get_ward_info', requirements: ['id' => '\d+'], methods: ['GET'])]
+    #[Route('/{id}', name: 'get_ward_info', requirements: ['id' => '\d+'], methods: ['GET'])]
     public function getWardInfo(
         int $id,
         WardService $wardService,
@@ -139,7 +140,7 @@ class WardController extends AbstractController
             ]
         )
     )]
-    #[Route('/wards/{id}', name: 'delete_ward', requirements: ['id' => '\d+'], methods: ['DELETE'])]
+    #[Route('/{id}', name: 'delete_ward', requirements: ['id' => '\d+'], methods: ['DELETE'])]
     public function deleteWard(
         int $id,
         WardService $wardService,

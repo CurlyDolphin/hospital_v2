@@ -11,8 +11,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/procedures')]
 class ProcedureController extends AbstractController
 {
     #[OA\Tag(name: 'Procedures')]
@@ -42,7 +43,7 @@ class ProcedureController extends AbstractController
             ]
         )
     )]
-    #[Route('/procedures', name: 'get_procedures', methods: ['GET'])]
+    #[Route('/', name: 'get_procedures', methods: ['GET'])]
     public function getProcedures(ProcedureService $procedureService): JsonResponse
     {
         return new JsonResponse($procedureService->getProcedures(), Response::HTTP_OK, [], true);
@@ -56,7 +57,7 @@ class ProcedureController extends AbstractController
             example: ['message' => 'Procedure created successfully', 'procedureName' => 'Электрокардиография']
         )
     )]
-    #[Route('/procedures', name: 'create_procedure', methods: ['POST'])]
+    #[Route('/', name: 'create_procedure', methods: ['POST'])]
     public function createProcedure(
         #[MapRequestPayload] CreateProcedureDto $dto,
         ProcedureService $procedureService,
@@ -84,7 +85,7 @@ class ProcedureController extends AbstractController
             type: 'object'
         )
     )]
-    #[Route('/procedures/{procedureId}', name: 'get_procedure_info', requirements: ['id' => '\d+'], methods: ['GET'])]
+    #[Route('/{procedureId}', name: 'get_procedure_info', requirements: ['id' => '\d+'], methods: ['GET'])]
     public function getProcedureInfo(
         int $procedureId,
         ProcedureService $procedureService,
@@ -105,7 +106,7 @@ class ProcedureController extends AbstractController
             ]
         )
     )]
-    #[Route('/procedures/{id}', name: 'update_procedure', requirements: ['id' => '\d+'], methods: ['PUT'])]
+    #[Route('/{id}', name: 'update_procedure', requirements: ['id' => '\d+'], methods: ['PUT'])]
     public function updateProcedure(
         int $procedureId,
         #[MapRequestPayload] CreateProcedureDto $dto,
@@ -129,7 +130,7 @@ class ProcedureController extends AbstractController
             ]
         )
     )]
-    #[Route('/procedures/{id}', name: 'delete_procedure', requirements: ['id' => '\d+'], methods: ['DELETE'])]
+    #[Route('/{id}', name: 'delete_procedure', requirements: ['id' => '\d+'], methods: ['DELETE'])]
     public function deleteProcedure(
         int $procedureId,
         ProcedureService $procedureService,
