@@ -2,9 +2,9 @@
 
 namespace App\Service;
 
-use App\Dto\Patient\UpdatePatientDto;
 use App\Dto\Patient\CreatePatientDto;
 use App\Dto\Patient\IdentifyPatientDto;
+use App\Dto\Patient\UpdatePatientDto;
 use App\Entity\Hospitalization;
 use App\Entity\Patient;
 use App\Enum\GenderEnum;
@@ -18,11 +18,11 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class PatientService
 {
     public function __construct(
-        private readonly PatientRepository      $patientRepository,
-        private readonly WardRepository         $wardRepository,
+        private readonly PatientRepository $patientRepository,
+        private readonly WardRepository $wardRepository,
         private readonly EntityManagerInterface $entityManager,
-        private readonly ValidatorInterface     $validator,
-        private readonly SerializerInterface    $serializer,
+        private readonly ValidatorInterface $validator,
+        private readonly SerializerInterface $serializer,
     ) {
     }
 

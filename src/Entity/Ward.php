@@ -111,5 +111,4 @@ class Ward
 
         return $this;
     }
-
 }

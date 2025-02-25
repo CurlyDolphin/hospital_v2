@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Dto\Patient\UpdatePatientDto;
 use App\Dto\Patient\CreatePatientDto;
 use App\Dto\Patient\IdentifyPatientDto;
+use App\Dto\Patient\UpdatePatientDto;
 use App\Service\PatientService;
 use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
