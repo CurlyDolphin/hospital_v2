@@ -97,9 +97,9 @@ class PatientController extends AbstractController
         description: 'create patient',
         content: new OA\JsonContent(
             properties: [
-                new OA\Property(property: 'id', type: 'integer', example: 2),
+                new OA\Property(property: 'message', type: 'string', example: 'Patient created successfully'),
                 new OA\Property(
-                    property: 'name',
+                    property: 'patientName',
                     type: 'string',
                     example: 'Кирилл'
                 ),

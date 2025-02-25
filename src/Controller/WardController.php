@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
 class WardController extends AbstractController
 {
@@ -81,11 +81,11 @@ class WardController extends AbstractController
         )
     )]
     public function updateWard(
-        int $wardId,
+        int $id,
         #[MapRequestPayload] CreateWardDto $dto,
         WardService $wardService,
     ): JsonResponse {
-        $ward = $wardService->updateWard($wardId, $dto);
+        $ward = $wardService->updateWard($id, $dto);
 
         return new JsonResponse(
             ['message' => 'Ward updated successfully', 'Ward Number' => $ward->getWardNumber()],
@@ -117,15 +117,15 @@ class WardController extends AbstractController
         )
     )]
     public function getWardInfo(
-        int $wardId,
+        int $id,
         WardService $wardService,
     ): JsonResponse {
-        $wardInfo = $wardService->getWardInfo($wardId);
+        $wardInfo = $wardService->getWardInfo($id);
 
         return new JsonResponse($wardInfo, Response::HTTP_OK);
     }
 
-    #[Route('/wards/{wardId}', name: 'delete_ward', requirements: ['id' => '\d+'], methods: ['DELETE'])]
+    #[Route('/wards/{id}', name: 'delete_ward', requirements: ['id' => '\d+'], methods: ['DELETE'])]
     #[OA\Response(
         response: 200,
         description: 'Delete ward',
@@ -136,10 +136,10 @@ class WardController extends AbstractController
         )
     )]
     public function deleteWard(
-        int $wardId,
+        int $id,
         WardService $wardService,
     ): JsonResponse {
-        $wardService->deleteWard($wardId);
+        $wardService->deleteWard($id);
 
         return new JsonResponse(['message' => 'The ward has been successfully removed. Patients are disconnected.'], Response::HTTP_OK);
     }

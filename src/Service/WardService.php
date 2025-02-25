@@ -53,9 +53,9 @@ class WardService
     /**
      * @return array{wardNumber: int, patients: array<int, array{id: int, name: string, lastName: string}>}
      */
-    public function getWardInfo(int $wardId): array
+    public function getWardInfo(int $id): array
     {
-        $ward = $this->findWardOrFail($wardId);
+        $ward = $this->findWardOrFail($id);
 
         $patients = [];
 
@@ -74,9 +74,9 @@ class WardService
         ];
     }
 
-    public function deleteWard(int $wardId): void
+    public function deleteWard(int $id): void
     {
-        $ward = $this->findWardOrFail($wardId);
+        $ward = $this->findWardOrFail($id);
 
         foreach ($ward->getHospitalizations() as $hospitalization) {
             $hospitalization->setDeletedAt(new \DateTime('now'));

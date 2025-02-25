@@ -7,7 +7,7 @@ use Symfony\Component\Validator\ConstraintValidator;
 
 class PhoneNumberValidator extends ConstraintValidator
 {
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint): void
     {
         if (!$constraint instanceof PhoneNumber) {
             throw new \InvalidArgumentException('Неверный тип ограничения');

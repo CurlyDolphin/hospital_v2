@@ -101,7 +101,7 @@ services:
     container_name: exporter_container
     image: prometheuscommunity/postgres-exporter
     environment:
-      DATA_SOURCE_URI: "postgres:5432/hospital?sslmode=disable"
+      DATA_SOURCE_URI: "postgres:${POSTGRES_PORT}/hospital?sslmode=disable"
       DATA_SOURCE_USER: "doctor"
       DATA_SOURCE_PASS: "angina"
       PG_EXPORTER_EXTEND_QUERY_PATH: "/etc/postgres_exporter/queries.yaml"
