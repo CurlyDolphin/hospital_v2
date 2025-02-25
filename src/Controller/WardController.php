@@ -131,7 +131,7 @@ class WardController extends AbstractController
         description: 'Delete ward',
         content: new OA\JsonContent(
             properties: [
-                new OA\Property(property: 'message', type: 'string', example: 'Палата успешно удалена. Пациенты отцеплены.'),
+                new OA\Property(property: 'message', type: 'string', example: 'The ward has been successfully removed. Patients are disconnected.'),
             ]
         )
     )]
@@ -141,6 +141,6 @@ class WardController extends AbstractController
     ): JsonResponse {
         $wardService->deleteWard($wardId);
 
-        return new JsonResponse(['message' => 'Палата успешно удалена. Пациенты отцеплены.'], Response::HTTP_OK);
+        return new JsonResponse(['message' => 'The ward has been successfully removed. Patients are disconnected.'], Response::HTTP_OK);
     }
 }
