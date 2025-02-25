@@ -49,34 +49,9 @@ Open in browser [http://localhost:5050](http://localhost:5050)
 ## Доступ к Swagger
 Open in browser [http://localhost:888/api/doc](http://localhost:888/api/doc)
 
-## Как должен выглядеть docker/.env по умолчанию
-COMPOSE_PROJECT_NAME=hospital
-
-#users ids could retrieved by the command `id $USER`
-
-PUID=1000
-
-PGID=1000
-
-#nginx
-
-NGINX_HOST_HTTP_PORT=888
-
-INSTALL_XDEBUG=false
-
-#postgres
-
-POSTGRES_PORT=5432
-
-POSTGRES_DB=hospital
-
-POSTGRES_USER=doctor
-
-POSTGRES_PASSWORD=angina
-
 ## Подключение к Postgres в .env
 
-DATABASE_URL="postgresql://doctor:angina@postgres:5432/hospital?serverVersion=13&charset=utf8"
+DATABASE_URL="postgresql://doctor:angina@postgres:5433/hospital?serverVersion=13&charset=utf8"
      
 ## Взаимодействие с php cs fixer
 ```shell
@@ -88,7 +63,7 @@ docker exec -it php-fpm php vendor/bin/php-cs-fixer fix
 docker exec -it php-fpm php vendor/bin/phpstan analyse src
 ```
 
-## Настройкв cs fixer для РНРStorm
+## Настройка cs fixer для РНРStorm
 https://youtu.be/9vJ0vAnAcSU?si=NmgKarJOQ5-FSrz-&t=310
 
 ## История развития проекта
