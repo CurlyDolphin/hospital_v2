@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class PatientController extends AbstractController
 {
-    #[Route('/patients', name: 'get_patients', methods: ['GET'])]
+    #[OA\Tag(name: 'Patients')]
     #[OA\Response(
         response: 200,
         description: 'List of patients',
@@ -42,13 +42,14 @@ class PatientController extends AbstractController
             )
         )
     )]
+    #[Route('/patients', name: 'get_patients', methods: ['GET'])]
     public function getAllPatients(
         PatientService $patientService,
     ): JsonResponse {
         return new JsonResponse($patientService->getPatients(), Response::HTTP_OK, [], true);
     }
 
-    #[Route('/patients/{patientId}', name: 'get_patient', methods: ['GET'])]
+    #[OA\Tag(name: 'Patients')]
     #[OA\Response(
         response: 200,
         description: 'get patient by id',
@@ -82,6 +83,7 @@ class PatientController extends AbstractController
             type: 'object'
         )
     )]
+    #[Route('/patients/{patientId}', name: 'get_patient', methods: ['GET'])]
     public function getPatientInfo(
         int $patientId,
         PatientService $patientService,
@@ -91,7 +93,7 @@ class PatientController extends AbstractController
         return new JsonResponse($patientInfo, Response::HTTP_OK, [], true);
     }
 
-    #[Route('/patients', name: 'create_patient', methods: ['POST'])]
+    #[OA\Tag(name: 'Patients')]
     #[OA\Response(
         response: 201,
         description: 'create patient',
@@ -106,6 +108,7 @@ class PatientController extends AbstractController
             ]
         )
     )]
+    #[Route('/patients', name: 'create_patient', methods: ['POST'])]
     public function createPatient(
         #[MapRequestPayload] CreatePatientDto $dto,
         PatientService $patientService,
@@ -118,7 +121,7 @@ class PatientController extends AbstractController
         );
     }
 
-    #[Route('/patients/identify/{$patientId}', name: 'identify_patient', methods: ['PUT'])]
+    #[OA\Tag(name: 'Patients')]
     #[OA\Response(
         response: 200,
         description: 'Identify patient by id',
@@ -129,6 +132,7 @@ class PatientController extends AbstractController
             ]
         )
     )]
+    #[Route('/patients/identify/{$patientId}', name: 'identify_patient', methods: ['PUT'])]
     public function identifyPatient(
         #[MapRequestPayload] IdentifyPatientDto $dto,
         int $patientId,
@@ -142,7 +146,7 @@ class PatientController extends AbstractController
         );
     }
 
-    #[Route('/patients/{id}', name: 'delete_patient', methods: ['DELETE'])]
+    #[OA\Tag(name: 'Patients')]
     #[OA\Response(
         response: 200,
         description: 'delete patient',
@@ -152,6 +156,7 @@ class PatientController extends AbstractController
             ]
         )
     )]
+    #[Route('/patients/{id}', name: 'delete_patient', methods: ['DELETE'])]
     public function deletePatient(
         int $patientId,
         PatientService $patientService,
@@ -161,7 +166,7 @@ class PatientController extends AbstractController
         return new JsonResponse(['message' => 'Patient deleted successfully'], Response::HTTP_OK);
     }
 
-    #[Route('/patients/{id}', name: 'update_patient', methods: ['PUT'])]
+    #[OA\Tag(name: 'Patients')]
     #[OA\Response(
         response: 200,
         description: 'update patient',
@@ -176,6 +181,7 @@ class PatientController extends AbstractController
             ]
         )
     )]
+    #[Route('/patients/{id}', name: 'update_patient', methods: ['PUT'])]
     public function updatePatient(
         int $patientId,
         #[MapRequestPayload] UpdatePatientDto $dto,

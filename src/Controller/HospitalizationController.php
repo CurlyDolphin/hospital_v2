@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class HospitalizationController extends AbstractController
 {
-    #[Route('/patients/assign', name: 'assign_patient_to_ward', methods: ['POST'])]
+    #[OA\Tag(name: 'Hospitalization')]
     #[OA\Response(
         response: 200,
         description: 'assign patient to ward',
@@ -26,6 +26,7 @@ class HospitalizationController extends AbstractController
             ]
         )
     )]
+    #[Route('/patients/assign', name: 'assign_patient_to_ward', methods: ['POST'])]
     public function assignPatientToWard(
         #[MapRequestPayload] AssignPatientDto $dto,
         HospitalizationService $hospitalizationService,

@@ -15,6 +15,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class ProcedureController extends AbstractController
 {
+    #[OA\Tag(name: 'Procedures')]
     #[OA\Response(
         response: 200,
         description: 'List of procedures',
@@ -47,6 +48,7 @@ class ProcedureController extends AbstractController
         return new JsonResponse($procedureService->getProcedures(), Response::HTTP_OK, [], true);
     }
 
+    #[OA\Tag(name: 'Procedures')]
     #[OA\Response(
         response: 201,
         description: 'Procedure created successfully',
@@ -67,6 +69,7 @@ class ProcedureController extends AbstractController
         );
     }
 
+    #[OA\Tag(name: 'Procedures')]
     #[OA\Response(
         response: 200,
         description: 'Get procedure info',
@@ -91,7 +94,7 @@ class ProcedureController extends AbstractController
         return new JsonResponse($procedureInfo, Response::HTTP_OK, [], true);
     }
 
-    #[Route('/procedures/{id}', name: 'update_procedure', requirements: ['id' => '\d+'], methods: ['PUT'])]
+    #[OA\Tag(name: 'Procedures')]
     #[OA\Response(
         response: 200,
         description: 'Procedure updated successfully',
@@ -102,6 +105,7 @@ class ProcedureController extends AbstractController
             ]
         )
     )]
+    #[Route('/procedures/{id}', name: 'update_procedure', requirements: ['id' => '\d+'], methods: ['PUT'])]
     public function updateProcedure(
         int $procedureId,
         #[MapRequestPayload] CreateProcedureDto $dto,
@@ -115,7 +119,7 @@ class ProcedureController extends AbstractController
         );
     }
 
-    #[Route('/procedures/{id}', name: 'delete_procedure', requirements: ['id' => '\d+'], methods: ['DELETE'])]
+    #[OA\Tag(name: 'Procedures')]
     #[OA\Response(
         response: 200,
         description: 'Procedure deleted successfully',
@@ -125,6 +129,7 @@ class ProcedureController extends AbstractController
             ]
         )
     )]
+    #[Route('/procedures/{id}', name: 'delete_procedure', requirements: ['id' => '\d+'], methods: ['DELETE'])]
     public function deleteProcedure(
         int $procedureId,
         ProcedureService $procedureService,

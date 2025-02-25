@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class WardController extends AbstractController
 {
-    #[Route('/wards', name: 'get_wards', methods: ['GET'])]
+    #[OA\Tag(name: 'Wards')]
     #[OA\Response(
         response: 200,
         description: 'List of wards',
@@ -40,12 +40,13 @@ class WardController extends AbstractController
             ]
         )
     )]
+    #[Route('/wards', name: 'get_wards', methods: ['GET'])]
     public function getWards(WardService $wardService): JsonResponse
     {
         return new JsonResponse($wardService->getWards(), Response::HTTP_OK, [], true);
     }
 
-    #[Route('/wards', name: 'create_wards', methods: ['POST'])]
+    #[OA\Tag(name: 'Wards')]
     #[OA\Response(
         response: 201,
         description: 'Create ward',
@@ -56,6 +57,7 @@ class WardController extends AbstractController
             ]
         )
     )]
+    #[Route('/wards', name: 'create_wards', methods: ['POST'])]
     public function createWards(
         #[MapRequestPayload] CreateWardDto $dto,
         WardService $wardService,
@@ -68,7 +70,7 @@ class WardController extends AbstractController
         );
     }
 
-    #[Route('/wards/{id}', name: 'update_ward', requirements: ['id' => '\d+'], methods: ['PUT'])]
+    #[OA\Tag(name: 'Wards')]
     #[OA\Response(
         response: 200,
         description: 'Update ward',
@@ -80,6 +82,7 @@ class WardController extends AbstractController
             type: 'object'
         )
     )]
+    #[Route('/wards/{id}', name: 'update_ward', requirements: ['id' => '\d+'], methods: ['PUT'])]
     public function updateWard(
         int $id,
         #[MapRequestPayload] CreateWardDto $dto,
@@ -93,7 +96,7 @@ class WardController extends AbstractController
         );
     }
 
-    #[Route('/wards/{id}', name: 'get_ward_info', requirements: ['id' => '\d+'], methods: ['GET'])]
+    #[OA\Tag(name: 'Wards')]
     #[OA\Response(
         response: 200,
         description: 'Get ward with patient by id',
@@ -116,6 +119,7 @@ class WardController extends AbstractController
             type: 'object'
         )
     )]
+    #[Route('/wards/{id}', name: 'get_ward_info', requirements: ['id' => '\d+'], methods: ['GET'])]
     public function getWardInfo(
         int $id,
         WardService $wardService,
@@ -125,7 +129,7 @@ class WardController extends AbstractController
         return new JsonResponse($wardInfo, Response::HTTP_OK);
     }
 
-    #[Route('/wards/{id}', name: 'delete_ward', requirements: ['id' => '\d+'], methods: ['DELETE'])]
+    #[OA\Tag(name: 'Wards')]
     #[OA\Response(
         response: 200,
         description: 'Delete ward',
@@ -135,6 +139,7 @@ class WardController extends AbstractController
             ]
         )
     )]
+    #[Route('/wards/{id}', name: 'delete_ward', requirements: ['id' => '\d+'], methods: ['DELETE'])]
     public function deleteWard(
         int $id,
         WardService $wardService,

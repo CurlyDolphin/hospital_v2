@@ -15,6 +15,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class WardProcedureController extends AbstractController
 {
+    #[OA\Tag(name: 'Ward Procedures')]
     #[OA\Response(
         response: 200,
         description: 'Get ward procedures',
@@ -73,6 +74,7 @@ class WardProcedureController extends AbstractController
         return new JsonResponse($wardProcedures, Response::HTTP_OK, [], true);
     }
 
+    #[OA\Tag(name: 'Ward Procedures')]
     #[OA\Response(
         response: 200,
         description: 'Ward procedures updated successfully',
