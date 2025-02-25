@@ -68,7 +68,7 @@ class WardController extends AbstractController
         );
     }
 
-    #[Route('/wards/{id}', name: 'update_ward', methods: ['PUT'])]
+    #[Route('/wards/{id}', name: 'update_ward', requirements: ['id' => '\d+'], methods: ['PUT'])]
     #[OA\Response(
         response: 200,
         description: 'Update ward',
@@ -81,11 +81,11 @@ class WardController extends AbstractController
         )
     )]
     public function updateWard(
-        int $id,
+        int $wardId,
         #[MapRequestPayload] CreateWardDto $dto,
         WardService $wardService,
     ): JsonResponse {
-        $ward = $wardService->updateWard($id, $dto);
+        $ward = $wardService->updateWard($wardId, $dto);
 
         return new JsonResponse(
             ['message' => 'Ward updated successfully', 'Ward Number' => $ward->getWardNumber()],
@@ -93,7 +93,7 @@ class WardController extends AbstractController
         );
     }
 
-    #[Route('/wards/{id}', name: 'get_ward_info', methods: ['GET'])]
+    #[Route('/wards/{id}', name: 'get_ward_info', requirements: ['id' => '\d+'], methods: ['GET'])]
     #[OA\Response(
         response: 200,
         description: 'Get ward with patient by id',
@@ -117,15 +117,15 @@ class WardController extends AbstractController
         )
     )]
     public function getWardInfo(
-        int $id,
+        int $wardId,
         WardService $wardService,
     ): JsonResponse {
-        $wardInfo = $wardService->getWardInfo($id);
+        $wardInfo = $wardService->getWardInfo($wardId);
 
         return new JsonResponse($wardInfo, Response::HTTP_OK);
     }
 
-    #[Route('/wards/{wardId}', name: 'delete_ward', methods: ['DELETE'])]
+    #[Route('/wards/{wardId}', name: 'delete_ward', requirements: ['id' => '\d+'], methods: ['DELETE'])]
     #[OA\Response(
         response: 200,
         description: 'Delete ward',

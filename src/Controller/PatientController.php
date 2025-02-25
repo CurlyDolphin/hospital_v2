@@ -118,7 +118,7 @@ class PatientController extends AbstractController
         );
     }
 
-    #[Route('/patients/identify/{id}', name: 'identify_patient', methods: ['PUT'])]
+    #[Route('/patients/identify/{$patientId}', name: 'identify_patient', methods: ['PUT'])]
     #[OA\Response(
         response: 200,
         description: 'Identify patient by id',
@@ -131,10 +131,10 @@ class PatientController extends AbstractController
     )]
     public function identifyPatient(
         #[MapRequestPayload] IdentifyPatientDto $dto,
-        int $id,
+        int $patientId,
         PatientService $patientService,
     ): JsonResponse {
-        $patient = $patientService->identifyPatient($id, $dto);
+        $patient = $patientService->identifyPatient($patientId, $dto);
 
         return new JsonResponse(
             ['message' => 'Patient identified successfully', 'patientName' => $patient->getName()],
@@ -153,10 +153,10 @@ class PatientController extends AbstractController
         )
     )]
     public function deletePatient(
-        int $id,
+        int $patientId,
         PatientService $patientService,
     ): JsonResponse {
-        $patientService->deletePatient($id);
+        $patientService->deletePatient($patientId);
 
         return new JsonResponse(['message' => 'Patient deleted successfully'], Response::HTTP_OK);
     }
@@ -177,11 +177,11 @@ class PatientController extends AbstractController
         )
     )]
     public function updatePatient(
-        int $id,
+        int $patientId,
         #[MapRequestPayload] UpdatePatientDto $dto,
         PatientService $patientService,
     ): JsonResponse {
-        $patient = $patientService->updatePatient($id, $dto);
+        $patient = $patientService->updatePatient($patientId, $dto);
 
         return new JsonResponse(
             ['message' => 'Patient updated successfully', 'Patient Name' => $patient->getName()],
