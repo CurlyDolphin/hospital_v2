@@ -29,9 +29,9 @@ class Ward
     #[Groups(['ward:read', 'patient:read'])]
     private int $wardNumber;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[Groups(['ward:read'])]
-    private string $description;
+    private ?string $description = null;
 
     /** @var Collection<int, Hospitalization> */
     #[ORM\OneToMany(targetEntity: Hospitalization::class, mappedBy: 'ward')]

@@ -36,9 +36,9 @@ class Patient
     #[Groups(['patient:read'])]
     private string $lastName;
 
-    #[ORM\Column(type: 'string', length: 6, enumType: GenderEnum::class)]
+    #[ORM\Column(type: 'string', length: 6, nullable: true, enumType: GenderEnum::class)]
     #[Groups(['patient:read'])]
-    private GenderEnum $gender;
+    private ?GenderEnum $gender = null;
 
     #[ORM\Column(type: 'boolean')]
     #[Groups(['patient:read'])]
