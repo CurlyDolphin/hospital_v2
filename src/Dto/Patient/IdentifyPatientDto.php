@@ -14,11 +14,11 @@ class IdentifyPatientDto extends BasePatientDto
 
         public string $lastName,
 
-        #[Assert\NotBlank(message: 'Дата рождения должна быть задана')]
+        #[Assert\NotBlank(message: 'The date of birth must be given')]
         #[Assert\Type("\DateTimeInterface")]
         #[Assert\LessThanOrEqual(
             value: new \DateTimeImmutable('today'),
-            message: 'Дата рождения не может быть позже текущей даты'
+            message: 'Birthday cannot be later than today'
         )]
         public \DateTimeInterface $birthday,
     ) {

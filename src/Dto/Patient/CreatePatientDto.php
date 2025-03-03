@@ -14,7 +14,7 @@ class CreatePatientDto extends BasePatientDto
 
         string $lastName,
 
-        #[Assert\Choice(['male', 'female', 'other'], message: 'Пол должен быть задан')]
+        #[Assert\Choice(['male', 'female', 'other'], message: 'Birthday must be provided')]
         public string $gender,
 
         #[Assert\NotNull]
@@ -23,7 +23,7 @@ class CreatePatientDto extends BasePatientDto
         #[Assert\Type("\DateTimeInterface")]
         #[Assert\LessThanOrEqual(
             value: new \DateTimeImmutable('today'),
-            message: 'Дата рождения не может быть позже текущей даты'
+            message: 'Birthday cannot be later than today'
         )]
         public ?\DateTimeInterface $birthday = null,
 
