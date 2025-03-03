@@ -20,7 +20,7 @@ INSTALL_XDEBUG=true
 1. Откройте **File -> Settings -> PHP -> Servers**.
 2. Добавьте сервер с именем `Docker`:
     - **Host:** `localhost(127.0.0.1)`
-    - **Port:** `888`
+    - **Port:** `8081`
     - **Debugger:** `Xdebug`
 3. Установите галочку **Use path mappings** и укажите путь:
 
@@ -47,7 +47,7 @@ Open in browser [http://localhost:5050](http://localhost:5050)
 Пароль и логин вводятся автоматически, ничего вводить не нужно.
 
 ## Доступ к Swagger
-Open in browser [http://localhost:888/api/doc](http://localhost:888/api/doc)
+Open in browser [http://localhost:8081/api/doc](http://localhost:888/api/doc)
 
 ## Подключение к Postgres в .env
 

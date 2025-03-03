@@ -151,10 +151,12 @@ class Patient
 
     public function addHospitalization(Hospitalization $hospitalization): self
     {
-        if (!$this->hospitalizations->contains($hospitalization)) {
-            $this->hospitalizations[] = $hospitalization;
-            $hospitalization->setPatient($this);
+        if ($this->hospitalizations->contains($hospitalization)) {
+            return $this;
         }
+
+        $this->hospitalizations[] = $hospitalization;
+        $hospitalization->setPatient($this);
 
         return $this;
     }

@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/wards')]
 class WardController extends AbstractController
@@ -41,10 +41,15 @@ class WardController extends AbstractController
             ]
         )
     )]
-    #[Route('/', name: 'get_wards', methods: ['GET'])]
+    #[Route('', name: 'get_wards', methods: ['GET'])]
     public function getWards(WardService $wardService): JsonResponse
     {
-        return new JsonResponse($wardService->getWards(), Response::HTTP_OK, [], true);
+        return new JsonResponse(
+            $wardService->getWards(),
+            Response::HTTP_OK,
+            [],
+            true
+        );
     }
 
     #[OA\Tag(name: 'Wards')]
@@ -58,8 +63,8 @@ class WardController extends AbstractController
             ]
         )
     )]
-    #[Route('/', name: 'create_wards', methods: ['POST'])]
-    public function createWards(
+    #[Route('', name: 'create_ward', methods: ['POST'])]
+    public function createWard(
         #[MapRequestPayload] CreateWardDto $dto,
         WardService $wardService,
     ): JsonResponse {
@@ -127,7 +132,10 @@ class WardController extends AbstractController
     ): JsonResponse {
         $wardInfo = $wardService->getWardInfo($id);
 
-        return new JsonResponse($wardInfo, Response::HTTP_OK);
+        return new JsonResponse(
+            $wardInfo,
+            Response::HTTP_OK
+        );
     }
 
     #[OA\Tag(name: 'Wards')]
@@ -147,6 +155,9 @@ class WardController extends AbstractController
     ): JsonResponse {
         $wardService->deleteWard($id);
 
-        return new JsonResponse(['message' => 'The ward has been successfully removed. Patients are disconnected.'], Response::HTTP_OK);
+        return new JsonResponse(
+            ['message' => 'The ward has been successfully removed. Patients are disconnected.'],
+            Response::HTTP_OK
+        );
     }
 }

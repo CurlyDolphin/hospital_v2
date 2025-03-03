@@ -33,6 +33,9 @@ class HospitalizationController extends AbstractController
     ): JsonResponse {
         $patient = $hospitalizationService->assignPatientToWard($dto);
 
-        return new JsonResponse(['message' => 'Patient assigned to ward successfully', 'patientName' => $patient->getName()], Response::HTTP_OK);
+        return new JsonResponse(
+            ['message' => 'Patient assigned to ward successfully', 'patientName' => $patient->getName()],
+            Response::HTTP_OK
+        );
     }
 }

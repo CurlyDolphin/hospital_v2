@@ -14,8 +14,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class HospitalizationService
 {
     public function __construct(
-        private readonly PatientRepository $patientRepository,
-        private readonly WardRepository $wardRepository,
+        private readonly WardService $wardService,
+        private readonly PatientService $patientService,
         private readonly EntityManagerInterface $entityManager,
         private readonly ValidatorInterface $validator,
     ) {
@@ -32,15 +32,9 @@ class HospitalizationService
             throw new \InvalidArgumentException(implode('; ', $errorMessages));
         }
 
-        $patient = $this->patientRepository->find($dto->patientId);
-        if (!$patient) {
-            throw new EntityNotFoundException('Patient not found');
-        }
+        $patient = $this->patientService->findPatientOrFail($dto->patientId);
 
-        $ward = $this->wardRepository->find($dto->wardId);
-        if (!$ward) {
-            throw new EntityNotFoundException('Ward not found');
-        }
+        $ward = $this->wardService->findWardOrFail($dto->wardId);
 
         $hospitalization = new Hospitalization();
         $hospitalization->setPatient($patient);

@@ -177,7 +177,7 @@ class PatientService
         $this->entityManager->flush();
     }
 
-    private function findPatientOrFail(int $id): Patient
+    public function findPatientOrFail(int $id): Patient
     {
         $patient = $this->patientRepository->find($id);
         if (!$patient) {

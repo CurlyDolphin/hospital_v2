@@ -79,7 +79,7 @@ class ProcedureService
         $this->entityManager->flush();
     }
 
-    private function findProcedureOrFail(int $id): Procedure
+    public function findProcedureOrFail(int $id): Procedure
     {
         $procedure = $this->entityManager->getRepository(Procedure::class)->find($id);
         if (!$procedure) {

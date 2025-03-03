@@ -92,7 +92,7 @@ class WardService
         $this->entityManager->flush();
     }
 
-    private function findWardOrFail(int $id): Ward
+    public function findWardOrFail(int $id): Ward
     {
         $ward = $this->wardRepository->find($id);
         if (!$ward) {

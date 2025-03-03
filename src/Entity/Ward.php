@@ -87,9 +87,11 @@ class Ward
     public function addHospitalization(Hospitalization $hospitalization): self
     {
         if (!$this->hospitalizations->contains($hospitalization)) {
-            $this->hospitalizations[] = $hospitalization;
-            $hospitalization->setWard($this);
+            return $this;
         }
+
+        $this->hospitalizations[] = $hospitalization;
+        $hospitalization->setWard($this);
 
         return $this;
     }
@@ -105,9 +107,11 @@ class Ward
     public function addWardProcedure(WardProcedure $wardProcedure): self
     {
         if (!$this->wardProcedures->contains($wardProcedure)) {
-            $this->wardProcedures[] = $wardProcedure;
-            $wardProcedure->setWard($this);
+            return $this;
         }
+
+        $this->wardProcedures[] = $wardProcedure;
+        $wardProcedure->setWard($this);
 
         return $this;
     }

@@ -13,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/patients')]
 class PatientController extends AbstractController
@@ -47,7 +47,12 @@ class PatientController extends AbstractController
     public function getAllPatients(
         PatientService $patientService,
     ): JsonResponse {
-        return new JsonResponse($patientService->getPatients(), Response::HTTP_OK, [], true);
+        return new JsonResponse(
+            $patientService->getPatients(),
+            Response::HTTP_OK,
+            [],
+            true
+        );
     }
 
     #[OA\Tag(name: 'Patients')]
@@ -91,7 +96,10 @@ class PatientController extends AbstractController
     ): JsonResponse {
         $patientInfo = $patientService->getPatientInfo($patientId);
 
-        return new JsonResponse($patientInfo, Response::HTTP_OK, [], true);
+        return new JsonResponse(
+            $patientInfo,
+            Response::HTTP_OK
+        );
     }
 
     #[OA\Tag(name: 'Patients')]
@@ -109,7 +117,7 @@ class PatientController extends AbstractController
             ]
         )
     )]
-    #[Route('/', name: 'create_patient', methods: ['POST'])]
+    #[Route('', name: 'create_patient', methods: ['POST'])]
     public function createPatient(
         #[MapRequestPayload] CreatePatientDto $dto,
         PatientService $patientService,
@@ -164,7 +172,10 @@ class PatientController extends AbstractController
     ): JsonResponse {
         $patientService->deletePatient($patientId);
 
-        return new JsonResponse(['message' => 'Patient deleted successfully'], Response::HTTP_OK);
+        return new JsonResponse(
+            ['message' => 'Patient deleted successfully'],
+            Response::HTTP_OK
+        );
     }
 
     #[OA\Tag(name: 'Patients')]

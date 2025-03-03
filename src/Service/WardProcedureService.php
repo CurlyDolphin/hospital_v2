@@ -17,8 +17,9 @@ class WardProcedureService
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
-        private readonly WardRepository $wardRepository,
         private readonly WardProcedureRepository $wardProcedureRepository,
+        private readonly ProcedureService $procedureService,
+        private readonly WardService $wardService,
         private readonly SerializerInterface $serializer,
         private readonly ValidatorInterface $validator,
     ) {
@@ -41,7 +42,7 @@ class WardProcedureService
 
     private function removeProceduresFromWard(int $wardId): void
     {
-        $ward = $this->findWardOrFail($wardId);
+        $ward = $this->wardService->findWardOrFail($wardId);
 
         $wardProcedures = $this->entityManager
             ->getRepository(WardProcedure::class)
@@ -65,20 +66,15 @@ class WardProcedureService
             throw new \InvalidArgumentException(implode('; ', $errorMessages));
         }
 
-        $ward = $this->findWardOrFail($wardId);
+        $ward = $this->wardService->findWardOrFail($wardId);
 
         $this->removeProceduresFromWard($wardId);
 
         $proceduresResponse = [];
 
         foreach ($dto->procedures as $procedureData) {
-            $procedure = $this->entityManager
-                ->getRepository(Procedure::class)
-                ->find($procedureData['procedure_id']);
 
-            if (!$procedure) {
-                throw new EntityNotFoundException(sprintf('Процедура с id %d не найдена', $procedureData['procedure_id']));
-            }
+            $procedure = $this->procedureService->findProcedureOrFail($procedureData['procedure_id']);
 
             $wardProcedure = new WardProcedure();
             $wardProcedure->setWard($ward);
@@ -104,13 +100,4 @@ class WardProcedureService
         ];
     }
 
-    private function findWardOrFail(int $id): Ward
-    {
-        $ward = $this->wardRepository->find($id);
-        if (!$ward) {
-            throw new EntityNotFoundException('Палата не найдена');
-        }
-
-        return $ward;
-    }
 }

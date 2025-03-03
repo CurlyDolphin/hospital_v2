@@ -71,7 +71,10 @@ class WardProcedureController extends AbstractController
     ): JsonResponse {
         $wardProcedures = $wardProcedureService->getWardProcedures($wardId);
 
-        return new JsonResponse($wardProcedures, Response::HTTP_OK, [], true);
+        return new JsonResponse(
+            $wardProcedures,
+            Response::HTTP_OK
+        );
     }
 
     #[OA\Tag(name: 'Ward Procedures')]

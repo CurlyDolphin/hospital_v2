@@ -78,9 +78,11 @@ class Procedure
     public function addWardProcedure(WardProcedure $wardProcedure): self
     {
         if (!$this->wardProcedures->contains($wardProcedure)) {
-            $this->wardProcedures[] = $wardProcedure;
-            $wardProcedure->setProcedure($this);
+            return $this;
         }
+
+        $this->wardProcedures[] = $wardProcedure;
+        $wardProcedure->setProcedure($this);
 
         return $this;
     }
