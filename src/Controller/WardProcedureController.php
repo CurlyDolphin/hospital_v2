@@ -12,9 +12,16 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class WardProcedureController extends AbstractController
 {
+
+    public function __construct(
+        private readonly SerializerInterface $serializer,
+    ) {
+    }
+
     #[OA\Tag(name: 'Ward Procedures')]
     #[OA\Response(
         response: 200,
@@ -71,9 +78,17 @@ class WardProcedureController extends AbstractController
     ): JsonResponse {
         $wardProcedures = $wardProcedureService->getWardProcedures($wardId);
 
-        return new JsonResponse(
+        $response = $this->serializer->serialize(
             $wardProcedures,
-            Response::HTTP_OK
+            'json',
+            ['groups' => 'ward_procedure:read']
+        );
+
+        return new JsonResponse(
+            $response,
+            Response::HTTP_OK,
+            [],
+            true
         );
     }
 

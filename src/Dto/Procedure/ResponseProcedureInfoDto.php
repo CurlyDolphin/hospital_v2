@@ -2,7 +2,7 @@
 
 namespace App\Dto\Procedure;
 
-class ProcedureInfoDto
+class ResponseProcedureInfoDto
 {
     public int $id;
     public string $name;

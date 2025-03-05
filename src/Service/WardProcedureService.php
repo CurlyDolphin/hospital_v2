@@ -20,12 +20,14 @@ class WardProcedureService
         private readonly WardProcedureRepository $wardProcedureRepository,
         private readonly ProcedureService $procedureService,
         private readonly WardService $wardService,
-        private readonly SerializerInterface $serializer,
         private readonly ValidatorInterface $validator,
     ) {
     }
 
-    public function getWardProcedures(int $wardId): string
+    /**
+     * @return WardProcedure[]
+     */
+    public function getWardProcedures(int $wardId): array
     {
         $wardProcedures = $this->wardProcedureRepository->findByWardWithProcedureOrdered($wardId);
 
@@ -33,11 +35,7 @@ class WardProcedureService
             throw new EntityNotFoundException('Лечебный план не найден для заданной палаты');
         }
 
-        return $this->serializer->serialize(
-            $wardProcedures,
-            'json',
-            ['groups' => 'ward_procedure:read']
-        );
+        return $wardProcedures;
     }
 
     private function removeProceduresFromWard(int $wardId): void

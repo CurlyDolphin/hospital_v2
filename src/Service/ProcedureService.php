@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Dto\Procedure\CreateProcedureDto;
+use App\Dto\Procedure\ResponseProcedureInfoDto;
 use App\Entity\Procedure;
 use App\Entity\WardProcedure;
 use App\Repository\ProcedureRepository;
@@ -15,22 +16,18 @@ class ProcedureService
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly ProcedureRepository $procedureRepository,
-        private readonly SerializerInterface $serializer,
     ) {
     }
 
-    public function getProcedures(): string
+    /**
+     * @return Procedure[]
+     */
+    public function getProcedures(): array
     {
-        $procedure = $this->procedureRepository->findAll();
-
-        return $this->serializer->serialize(
-            $procedure,
-            'json',
-            ['groups' => 'procedure:read']
-        );
+        return $this->procedureRepository->findAll();
     }
 
-    public function getProcedureInfo(int $procedureId): string
+    public function getProcedureInfo(int $procedureId): ResponseProcedureInfoDto
     {
         $procedureDto = $this->procedureRepository->findProcedureInfo($procedureId);
 
@@ -38,7 +35,7 @@ class ProcedureService
             throw new EntityNotFoundException('Процедура не найдена');
         }
 
-        return $this->serializer->serialize($procedureDto, 'json');
+        return $procedureDto;
     }
 
     public function createProcedure(CreateProcedureDto $dto): Procedure

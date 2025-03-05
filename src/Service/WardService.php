@@ -14,15 +14,36 @@ class WardService
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly WardRepository $wardRepository,
-        private readonly SerializerInterface $serializer,
     ) {
     }
 
-    public function getWards(): string
+    public function getWards(): array
     {
-        $wards = $this->wardRepository->findAll();
+        return $this->wardRepository->findAll();
+    }
 
-        return $this->serializer->serialize($wards, 'json', ['groups' => 'ward:read']);
+    /**
+     * @return array{wardNumber: int, patients: array<int, array{id: int, name: string, lastName: string}>}
+     */
+    public function getWardInfo(int $id): array
+    {
+        $ward = $this->findWardOrFail($id);
+
+        $patients = [];
+
+        foreach ($ward->getHospitalizations() as $hospitalization) {
+            $patient = $hospitalization->getPatient();
+            $patients[] = [
+                'id' => $patient->getId(),
+                'name' => $patient->getName(),
+                'lastName' => $patient->getLastName(),
+            ];
+        }
+
+        return [
+            'wardNumber' => $ward->getWardNumber(),
+            'patients' => $patients,
+        ];
     }
 
     public function createWard(CreateWardDto $dto): Ward
@@ -48,30 +69,6 @@ class WardService
         $this->entityManager->flush();
 
         return $ward;
-    }
-
-    /**
-     * @return array{wardNumber: int, patients: array<int, array{id: int, name: string, lastName: string}>}
-     */
-    public function getWardInfo(int $id): array
-    {
-        $ward = $this->findWardOrFail($id);
-
-        $patients = [];
-
-        foreach ($ward->getHospitalizations() as $hospitalization) {
-            $patient = $hospitalization->getPatient();
-            $patients[] = [
-                'id' => $patient->getId(),
-                'name' => $patient->getName(),
-                'lastName' => $patient->getLastName(),
-            ];
-        }
-
-        return [
-            'wardNumber' => $ward->getWardNumber(),
-            'patients' => $patients,
-        ];
     }
 
     public function deleteWard(int $id): void

@@ -12,7 +12,6 @@ use App\Repository\PatientRepository;
 use App\Repository\WardRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
-use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class PatientService
@@ -22,30 +21,18 @@ class PatientService
         private readonly WardRepository $wardRepository,
         private readonly EntityManagerInterface $entityManager,
         private readonly ValidatorInterface $validator,
-        private readonly SerializerInterface $serializer,
     ) {
     }
 
-    public function getPatients(): string
+    /** @return Patient[] */
+    public function getPatients(): array
     {
-        $patients = $this->patientRepository->findAll();
-
-        return $this->serializer->serialize($patients, 'json', ['groups' => 'patient:read']);
+        return $this->patientRepository->findAll();
     }
 
-    public function getPatientInfo(int $patientId): string
+    public function getPatientInfo(int $patientId): Patient
     {
-        $patient = $this->patientRepository->findPatientInfo($patientId);
-
-        if (!$patient) {
-            throw new EntityNotFoundException('Пациент не найден');
-        }
-
-        return $this->serializer->serialize(
-            $patient,
-            'json',
-            ['groups' => 'patient:read']
-        );
+        return $this->findPatientOrFail($patientId);
     }
 
     public function createPatient(CreatePatientDto $dto): Patient

@@ -14,10 +14,16 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/patients')]
 class PatientController extends AbstractController
 {
+    public function __construct(
+        private readonly SerializerInterface $serializer,
+    ) {
+    }
+
     #[OA\Tag(name: 'Patients')]
     #[OA\Response(
         response: 200,
@@ -47,8 +53,13 @@ class PatientController extends AbstractController
     public function getAllPatients(
         PatientService $patientService,
     ): JsonResponse {
+
+        $patients = $patientService->getPatients();
+
+        $json = $this->serializer->serialize($patients, 'json', ['groups' => 'patient:read']);
+
         return new JsonResponse(
-            $patientService->getPatients(),
+            $json,
             Response::HTTP_OK,
             [],
             true
@@ -94,10 +105,17 @@ class PatientController extends AbstractController
         int $patientId,
         PatientService $patientService,
     ): JsonResponse {
+
         $patientInfo = $patientService->getPatientInfo($patientId);
 
-        return new JsonResponse(
+        $json = $this->serializer->serialize(
             $patientInfo,
+            'json',
+            ['groups' => 'patient:read']
+        );
+
+        return new JsonResponse(
+            $json,
             Response::HTTP_OK
         );
     }
@@ -149,7 +167,7 @@ class PatientController extends AbstractController
     ): JsonResponse {
         $patient = $patientService->identifyPatient($patientId, $dto);
 
-        return new JsonResponse(
+        return $this->json(
             ['message' => 'Patient identified successfully', 'patientName' => $patient->getName()],
             Response::HTTP_OK
         );

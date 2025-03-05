@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Dto\Procedure\ProcedureInfoDto;
+use App\Dto\Procedure\ResponseProcedureInfoDto;
 use App\Entity\Procedure;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -17,7 +17,7 @@ class ProcedureRepository extends ServiceEntityRepository
         parent::__construct($registry, Procedure::class);
     }
 
-    public function findProcedureInfo(int $id): ?ProcedureInfoDto
+    public function findProcedureInfo(int $id): ?ResponseProcedureInfoDto
     {
         $procedure = $this->createQueryBuilder('p')
             ->leftJoin('p.wardProcedures', 'wp')
@@ -38,7 +38,7 @@ class ProcedureRepository extends ServiceEntityRepository
             return null;
         }
 
-        $procedureDTO = new ProcedureInfoDto(
+        $procedureDTO = new ResponseProcedureInfoDto(
             $procedure->getId(),
             $procedure->getName(),
             $procedure->getDescription()

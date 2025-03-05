@@ -12,10 +12,17 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/wards')]
 class WardController extends AbstractController
 {
+
+    public function __construct(
+        private readonly SerializerInterface $serializer,
+    ) {
+    }
+
     #[OA\Tag(name: 'Wards')]
     #[OA\Response(
         response: 200,
@@ -44,11 +51,52 @@ class WardController extends AbstractController
     #[Route('', name: 'get_wards', methods: ['GET'])]
     public function getWards(WardService $wardService): JsonResponse
     {
+
+        $wards = $wardService->getWards();
+
+        $response = $this->serializer->serialize($wards, 'json', ['groups' => 'ward:read']);
+
         return new JsonResponse(
-            $wardService->getWards(),
+            $response,
             Response::HTTP_OK,
             [],
             true
+        );
+    }
+
+    #[OA\Tag(name: 'Wards')]
+    #[OA\Response(
+        response: 200,
+        description: 'Get ward with patient by id',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property('wardNumber', type: 'integer', example: 24),
+                new OA\Property(
+                    property: 'patients',
+                    type: 'array',
+                    items: new OA\Items(
+                        properties: [
+                            new OA\Property(property: 'id', type: 'integer', example: 2),
+                            new OA\Property(property: 'name', type: 'string', example: 'Кирилл'),
+                            new OA\Property(property: 'lastName', type: 'string', example: 'Иванов'),
+                        ],
+                        type: 'object'
+                    )
+                ),
+            ],
+            type: 'object'
+        )
+    )]
+    #[Route('/{id}', name: 'get_ward_info', requirements: ['id' => '\d+'], methods: ['GET'])]
+    public function getWardInfo(
+        int $id,
+        WardService $wardService,
+    ): JsonResponse {
+        $wardInfo = $wardService->getWardInfo($id);
+
+        return new JsonResponse(
+            $wardInfo,
+            Response::HTTP_OK
         );
     }
 
@@ -98,42 +146,6 @@ class WardController extends AbstractController
 
         return new JsonResponse(
             ['message' => 'Ward updated successfully', 'Ward Number' => $ward->getWardNumber()],
-            Response::HTTP_OK
-        );
-    }
-
-    #[OA\Tag(name: 'Wards')]
-    #[OA\Response(
-        response: 200,
-        description: 'Get ward with patient by id',
-        content: new OA\JsonContent(
-            properties: [
-                new OA\Property('wardNumber', type: 'integer', example: 24),
-                new OA\Property(
-                    property: 'patients',
-                    type: 'array',
-                    items: new OA\Items(
-                        properties: [
-                            new OA\Property(property: 'id', type: 'integer', example: 2),
-                            new OA\Property(property: 'name', type: 'string', example: 'Кирилл'),
-                            new OA\Property(property: 'lastName', type: 'string', example: 'Иванов'),
-                        ],
-                        type: 'object'
-                    )
-                ),
-            ],
-            type: 'object'
-        )
-    )]
-    #[Route('/{id}', name: 'get_ward_info', requirements: ['id' => '\d+'], methods: ['GET'])]
-    public function getWardInfo(
-        int $id,
-        WardService $wardService,
-    ): JsonResponse {
-        $wardInfo = $wardService->getWardInfo($id);
-
-        return new JsonResponse(
-            $wardInfo,
             Response::HTTP_OK
         );
     }

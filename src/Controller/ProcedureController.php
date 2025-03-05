@@ -12,10 +12,17 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/procedures')]
 class ProcedureController extends AbstractController
 {
+
+    public function __construct(
+        private readonly SerializerInterface $serializer,
+    ) {
+    }
+
     #[OA\Tag(name: 'Procedures')]
     #[OA\Response(
         response: 200,
@@ -46,8 +53,12 @@ class ProcedureController extends AbstractController
     #[Route('/', name: 'get_procedures', methods: ['GET'])]
     public function getProcedures(ProcedureService $procedureService): JsonResponse
     {
+        $procedure = $procedureService->getProcedures();
+
+        $response = $this->serializer->serialize($procedure, 'json', ['groups' => 'procedure:read']);
+
         return new JsonResponse(
-            $procedureService->getProcedures(),
+            $response,
             Response::HTTP_OK,
             [],
             true
@@ -96,6 +107,8 @@ class ProcedureController extends AbstractController
         ProcedureService $procedureService,
     ): JsonResponse {
         $procedureInfo = $procedureService->getProcedureInfo($id);
+
+        $response = $this->serializer->serialize($procedureInfo, 'json');
 
         return new JsonResponse(
             $procedureInfo,
